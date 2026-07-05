@@ -1,0 +1,3181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aadi Bhawsar — Designer & Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #010208;
+      --surface: #030508;
+      --card: #05080F;
+      --blue: #0057FF;
+      --blue-light: #3D7EFF;
+      --orange: #FF6500;
+      --white: #FFFFFF;
+      --muted: #8892A4;
+      --border: rgba(255,255,255,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── PRELOADER ── */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #preloader.hidden { opacity: 0; visibility: hidden; }
+
+    .pre-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      letter-spacing: 0.15em;
+      color: var(--white);
+      position: relative;
+    }
+    .pre-logo span { color: var(--blue); }
+    .pre-logo .dot2 { color: var(--orange); }
+
+    .pre-bar {
+      width: 200px;
+      height: 2px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .pre-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, var(--blue), var(--orange));
+      border-radius: 10px;
+      animation: preload 1.4s cubic-bezier(0.23,1,0.32,1) forwards;
+    }
+    @keyframes preload {
+      0%   { width: 0%; }
+      60%  { width: 75%; }
+      100% { width: 100%; }
+    }
+
+    .pre-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 60px;
+      height: 72px;
+      background: transparent;
+      border-bottom: 1px solid transparent;
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1),
+                  background 0.3s ease,
+                  box-shadow 0.3s ease;
+    }
+    nav.scrolled {
+      background: rgba(1,2,8,0.88);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+    }
+    nav.hidden { transform: translateY(-100%); }
+
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      position: relative;
+      text-decoration: none;
+    }
+    .logo span { color: var(--blue); }
+    .logo .dot2 { color: var(--orange); }
+    .logo::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 2px;
+      background: var(--blue);
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+    .logo:hover::after { width: 100%; }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: color 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,87,255,0.1);
+      border-radius: 6px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.23,1,0.32,1);
+    }
+    .nav-links a:hover::before, .nav-links a.active::before { transform: scaleX(1); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 14px; right: 14px;
+      height: 1.5px;
+      background: var(--blue);
+      box-shadow: 0 0 8px var(--blue);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.23,1,0.32,1);
+      border-radius: 2px;
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+
+    .nav-hire {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      background: transparent;
+      border: 1px solid rgba(0,87,255,0.6);
+      border-radius: 50px;
+      padding: 8px 20px;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-hire::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--blue) 0%, #3D7EFF 100%);
+      transform: translateX(-100%);
+      transition: transform 0.35s cubic-bezier(0.23,1,0.32,1);
+      border-radius: 50px;
+      z-index: 0;
+    }
+    .nav-hire:hover::before { transform: translateX(0); }
+    .nav-hire span { position: relative; z-index: 1; }
+    .nav-hire:hover {
+      border-color: var(--blue);
+      box-shadow: 0 0 25px rgba(0,87,255,0.5), 0 0 60px rgba(0,87,255,0.2);
+    }
+    .nav-hire .ping {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--orange);
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+    .nav-hire .ping::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: rgba(255,101,0,0.4);
+      animation: ping 1.5s ease-out infinite;
+    }
+    @keyframes ping {
+      0%   { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(2);   opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      padding-top: 72px;
+      padding-bottom: 160px;
+      position: relative;
+      overflow: visible;
+      display: flex;
+      align-items: center;
+      background: #000;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(to right,
+          rgba(0,0,0,0.85) 0%,
+          rgba(0,0,0,0.65) 25%,
+          rgba(0,0,0,0.25) 48%,
+          transparent 65%
+        ),
+        linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 35%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 80px;
+      max-width: 580px;
+    }
+    .hero-greeting {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+    .hero-name {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3rem, 5.5vw, 5rem);
+      line-height: 1.0;
+      margin-bottom: 14px;
+      letter-spacing: -1px;
+    }
+    .hero-name .first { color: var(--white); }
+    .hero-name .last  { color: var(--blue); }
+    .hero-roles {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    .role-blue    { color: var(--blue); }
+    .role-divider { color: rgba(255,255,255,0.3); }
+    .role-orange  { color: var(--orange); }
+    .hero-desc {
+      font-size: 0.975rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+      max-width: 420px;
+      margin-bottom: 40px;
+    }
+    .magnetic-wrap { display: inline-block; position: relative; }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--blue);
+      color: var(--white);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 15px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: background 0.25s, box-shadow 0.25s;
+      will-change: transform;
+    }
+    .hero-cta:hover {
+      background: var(--blue-light);
+      box-shadow: 0 8px 40px rgba(0,87,255,0.55);
+    }
+    .hero-cta svg { transition: transform 0.3s; }
+    .hero-cta:hover svg { transform: translateX(5px); }
+
+    /* Particles */
+    .space-particles {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: drift linear infinite;
+      opacity: 0;
+    }
+    @keyframes drift {
+      0%   { opacity: 0; transform: translateY(0) scale(0.6); }
+      15%  { opacity: 1; }
+      85%  { opacity: 0.5; }
+      100% { opacity: 0; transform: translateY(-100px) scale(1.4); }
+    }
+
+    /* Service cards */
+    .hero-cards {
+      position: absolute;
+      bottom: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: grid;
+      grid-template-columns: repeat(3, 300px);
+      gap: 20px;
+      z-index: 3;
+      width: max-content;
+    }
+    .service-card {
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 18px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.23,1,0.32,1), box-shadow 0.35s ease, background 0.35s ease;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .service-card:nth-child(1) { border-color: rgba(0,87,255,0.2); }
+    .service-card:nth-child(1):hover {
+      transform: translateY(-10px);
+      background: rgba(0,30,100,0.35);
+      box-shadow: 0 20px 60px rgba(0,87,255,0.35), 0 0 0 1px rgba(0,87,255,0.4);
+    }
+    .service-card:nth-child(2) { border-color: rgba(255,101,0,0.2); }
+    .service-card:nth-child(2):hover {
+      transform: translateY(-10px);
+      background: rgba(100,35,0,0.35);
+      box-shadow: 0 20px 60px rgba(255,101,0,0.35), 0 0 0 1px rgba(255,101,0,0.4);
+    }
+    .service-card:nth-child(3) { border-color: rgba(0,87,255,0.15); }
+    .service-card:nth-child(3):hover {
+      transform: translateY(-10px);
+      background: rgba(20,10,60,0.35);
+      box-shadow: 0 20px 60px rgba(100,50,255,0.3), 0 0 0 1px rgba(0,87,255,0.3);
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      top: -40px; right: -40px;
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: none;
+      filter: blur(30px);
+    }
+    .service-card:nth-child(1)::before { background: rgba(0,87,255,0.6); }
+    .service-card:nth-child(2)::before { background: rgba(255,101,0,0.6); }
+    .service-card:nth-child(3)::before { background: rgba(80,40,255,0.6); }
+    .service-card:hover::before { opacity: 1; transform: scale(1.3); }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 10%; right: 10%;
+      height: 2px;
+      border-radius: 2px;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .service-card:nth-child(1)::after { background: linear-gradient(to right, transparent, #0057FF, transparent); }
+    .service-card:nth-child(2)::after { background: linear-gradient(to right, transparent, #FF6500, transparent); }
+    .service-card:nth-child(3)::after { background: linear-gradient(to right, transparent, #0057FF, #FF6500, transparent); }
+    .service-card:hover::after { opacity: 1; }
+    .service-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 6px;
+      transition: transform 0.3s ease;
+    }
+    .service-card:nth-child(1) .service-icon { color: #0057FF; background: rgba(0,87,255,0.12); }
+    .service-card:nth-child(2) .service-icon { color: #FF6500; background: rgba(255,101,0,0.12); }
+    .service-card:nth-child(3) .service-icon { color: #4D8AFF; background: rgba(0,87,255,0.10); }
+    .service-card:hover .service-icon { transform: scale(1.15) rotate(-5deg); }
+    .service-title { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.05rem; transition: color 0.3s; }
+    .service-card:nth-child(1):hover .service-title { color: #4D8AFF; }
+    .service-card:nth-child(2):hover .service-title { color: #FF8533; }
+    .service-card:nth-child(3):hover .service-title { color: #7A9FFF; }
+    .service-desc { font-size: 0.82rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 80px; }
+    #about { margin-top: 140px; }
+    section:nth-child(even) { background: var(--surface); }
+
+    .section-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 500px;
+      line-height: 1.7;
+      margin-bottom: 60px;
+    }
+
+    /* ── ABOUT ── */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 22px 20px 18px;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: transform 0.35s cubic-bezier(0.23,1,0.32,1), border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--s-color);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+      border-radius: 2px 2px 0 0;
+    }
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--s-color);
+      filter: blur(25px);
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-6px) scale(1.03);
+      border-color: var(--s-color);
+      background: rgba(255,255,255,0.055);
+      box-shadow: 0 16px 40px var(--s-glow), 0 0 0 1px var(--s-color);
+    }
+    .stat-card:hover::before { transform: scaleX(1); }
+    .stat-card:hover::after  { opacity: 0.25; transform: scale(1.3); }
+    .stat-shine {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.06) 50%, transparent 60%);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+      pointer-events: none;
+    }
+    .stat-card:hover .stat-shine { transform: translateX(100%); }
+    .stat-icon { font-size: 1.3rem; margin-bottom: 8px; display: block; transition: transform 0.3s ease; }
+    .stat-card:hover .stat-icon { transform: scale(1.2) rotate(-8deg); }
+    .stat-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.6rem;
+      line-height: 1;
+      color: var(--s-color);
+      display: inline-block;
+      text-shadow: 0 0 20px var(--s-glow);
+    }
+    .stat-plus {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--s-color);
+      display: inline-block;
+      opacity: 0.7;
+      vertical-align: top;
+      margin-top: 4px;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      margin-top: 4px;
+      display: block;
+      letter-spacing: 0.03em;
+      transition: color 0.3s;
+    }
+    .stat-card:hover .stat-label { color: rgba(255,255,255,0.7); }
+
+    /* Tool cards */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .tool-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: transform 0.35s cubic-bezier(0.23,1,0.32,1), border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+    }
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, var(--glow), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .tool-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: var(--glow);
+      background: rgba(255,255,255,0.06);
+      box-shadow: 0 16px 40px color-mix(in srgb, var(--glow) 30%, transparent), 0 0 0 1px color-mix(in srgb, var(--glow) 40%, transparent);
+    }
+    .tool-card:hover::before { opacity: 0.12; }
+    .tool-icon-wrap {
+      width: 58px; height: 58px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 4px;
+    }
+    .tool-card:hover .tool-icon-wrap {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px color-mix(in srgb, var(--glow) 50%, transparent);
+    }
+    .tool-name { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.92rem; color: var(--white); transition: color 0.3s; }
+    .tool-card:hover .tool-name { color: var(--glow); }
+    .tool-level { font-size: 0.72rem; color: var(--muted); font-family: 'DM Sans', sans-serif; }
+    .tool-bar { width: 100%; height: 3px; background: rgba(255,255,255,0.07); border-radius: 10px; overflow: hidden; margin-top: 4px; }
+    .tool-fill { height: 100%; border-radius: 10px; width: 0%; transition: width 1.2s cubic-bezier(0.23,1,0.32,1); }
+
+    /* ── SKILLS CONSTELLATION ── */
+    .constellation-wrap {
+      position: relative;
+      width: 100%;
+      height: 440px;
+      margin-top: 20px;
+      overflow: hidden;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(0,0,0,0.3);
+    }
+    .const-nebula {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 45% 80% at 18% 50%, rgba(0,50,180,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 75% at 82% 50%, rgba(200,70,0,0.15) 0%, transparent 65%),
+        radial-gradient(ellipse 20% 40% at 48% 48%, rgba(255,255,255,0.02) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .const-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+    .star-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .star-core {
+      width: 58px; height: 58px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      transition: transform 0.35s cubic-bezier(0.23,1,0.32,1);
+    }
+    .star-core img { width: 34px; height: 34px; object-fit: contain; }
+    .star-core span { font-size: 1.6rem; }
+    .star-node:hover .star-core { transform: scale(1.2); }
+    .star-blue .star-core {
+      background: radial-gradient(circle at 35% 35%, rgba(0,100,255,0.25), rgba(0,30,120,0.2));
+      border: 1.5px solid rgba(0,87,255,0.5);
+      box-shadow: 0 0 14px rgba(0,87,255,0.5), 0 0 28px rgba(0,87,255,0.2), inset 0 0 10px rgba(0,87,255,0.1);
+    }
+    .star-blue:hover .star-core {
+      box-shadow: 0 0 24px rgba(0,87,255,0.8), 0 0 50px rgba(0,87,255,0.4), inset 0 0 14px rgba(0,87,255,0.2);
+      border-color: rgba(0,87,255,0.9);
+    }
+    .star-orange .star-core {
+      background: radial-gradient(circle at 35% 35%, rgba(255,120,30,0.25), rgba(150,40,0,0.2));
+      border: 1.5px solid rgba(255,101,0,0.5);
+      box-shadow: 0 0 14px rgba(255,101,0,0.5), 0 0 28px rgba(255,101,0,0.2), inset 0 0 10px rgba(255,101,0,0.1);
+    }
+    .star-orange:hover .star-core {
+      box-shadow: 0 0 24px rgba(255,101,0,0.8), 0 0 50px rgba(255,101,0,0.4), inset 0 0 14px rgba(255,101,0,0.2);
+      border-color: rgba(255,101,0,0.9);
+    }
+    .star-center .star-core-center {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0A0F20, #050810);
+      border: 2px solid rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem; letter-spacing: 0.12em; color: var(--white);
+      box-shadow: 0 0 20px rgba(0,87,255,0.3), 0 0 40px rgba(255,101,0,0.15);
+      position: relative; z-index: 2;
+    }
+    .star-ring {
+      position: absolute;
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,87,255,0.3);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(1);
+      animation: starPulse 3s ease-out infinite;
+      pointer-events: none;
+    }
+    .star-ring-2 { border-color: rgba(255,101,0,0.25); animation-delay: 1.5s; }
+    .star-blue .star-ring   { border-color: rgba(0,87,255,0.4);  }
+    .star-orange .star-ring { border-color: rgba(255,101,0,0.4); }
+    @keyframes starPulse {
+      0%   { transform: translate(-50%,-50%) scale(0.9); opacity: 1; }
+      100% { transform: translate(-50%,-50%) scale(2.2); opacity: 0; }
+    }
+    .star-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .star-blue:hover   .star-label { color: #4D8AFF; }
+    .star-orange:hover .star-label { color: #FF8533; }
+    .const-dot { position: absolute; border-radius: 50%; animation: twinkle ease-in-out infinite; pointer-events: none; }
+    @keyframes twinkle {
+      0%,100% { opacity: 0.15; transform: scale(0.8); }
+      50%      { opacity: 0.9;  transform: scale(1.4); }
+    }
+
+    /* ── PROJECT GRID ── */
+    .proj-filter {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 48px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+      width: fit-content;
+    }
+    .proj-tab {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 8px 22px;
+      border-radius: 7px;
+      border: none;
+      background: none;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .proj-tab.active { background: var(--blue); color: var(--white); }
+
+    .proj-count {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .proj-count span { color: var(--blue); font-weight: 600; }
+
+    .proj-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .proj-empty {
+      grid-column: span 3;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      border: 1px dashed rgba(255,255,255,0.1);
+      border-radius: 16px;
+    }
+    .proj-empty strong { color: var(--blue); display: block; font-size: 1.1rem; margin-bottom: 8px; }
+
+    /* each card */
+    .proj-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.07);
+      cursor: pointer;
+      background: #0a0d14;
+      transform-origin: center center;
+      animation: none;
+    }
+
+    /* flip/scale in animation */
+    @keyframes cardFlipIn {
+      0%   { opacity: 0; transform: scale(0.75) rotateY(25deg); }
+      60%  { transform: scale(1.03) rotateY(-3deg); }
+      100% { opacity: 1; transform: scale(1) rotateY(0deg); }
+    }
+    .proj-card.animating {
+      animation: cardFlipIn 0.45s cubic-bezier(0.23,1,0.32,1) both;
+    }
+
+    .proj-card-thumb {
+      width: 100%;
+      min-height: 220px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #080c14;
+      position: relative;
+    }
+    .proj-card-thumb img {
+      width: 100%;
+      height: auto;
+      max-height: 360px;
+      object-fit: contain;
+      transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+      display: block;
+    }
+    .proj-card:hover .proj-card-thumb img { transform: scale(1.04); }
+
+    /* overlay on hover */
+    .proj-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+    .proj-card:hover .proj-card-overlay { opacity: 1; }
+
+    .proj-card-overlay-inner {
+      transform: translateY(10px);
+      transition: transform 0.35s cubic-bezier(0.23,1,0.32,1);
+    }
+    .proj-card:hover .proj-card-overlay-inner { transform: translateY(0); }
+
+    .proj-overlay-eye {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    /* footer strip */
+    .proj-card-footer {
+      padding: 14px 16px;
+      background: rgba(5,8,20,0.95);
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .proj-card-name {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--white);
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .proj-card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .proj-card-cat {
+      font-size: 0.7rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .proj-card-cat.is-vector { color: #4D8AFF; }
+    .proj-card-cat.is-poster { color: #FF8533; }
+    .proj-card-tags {
+      display: flex;
+      gap: 4px;
+    }
+    .proj-card-tag {
+      font-size: 0.62rem;
+      font-family: 'Outfit', sans-serif;
+      padding: 2px 7px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.35);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* colored top border per type */
+    .proj-card.is-vector { border-top: 2px solid rgba(0,87,255,0.4); }
+    .proj-card.is-poster { border-top: 2px solid rgba(255,101,0,0.4); }
+    .proj-card.is-vector:hover { border-color: rgba(0,87,255,0.7); box-shadow: 0 16px 48px rgba(0,87,255,0.2); }
+    .proj-card.is-poster:hover { border-color: rgba(255,101,0,0.7); box-shadow: 0 16px 48px rgba(255,101,0,0.2); }
+
+    /* ── LIGHTBOX FULL REDESIGN ── */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 999;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0); backdrop-filter: blur(0px);
+      transition: background 0.35s ease, backdrop-filter 0.35s ease;
+      pointer-events: none;
+    }
+    .lightbox.open {
+      background: rgba(0,0,0,0.94); backdrop-filter: blur(20px);
+      pointer-events: all;
+    }
+    .lb-shell {
+      width: 94vw; max-width: 1100px; max-height: 92vh;
+      display: flex; flex-direction: column;
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #07090f;
+      opacity: 0; transform: scale(0.9) translateY(24px);
+      transition: opacity 0.4s cubic-bezier(0.23,1,0.32,1), transform 0.4s cubic-bezier(0.23,1,0.32,1);
+    }
+    .lightbox.open .lb-shell { opacity: 1; transform: scale(1) translateY(0); }
+    .lb-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .lb-topbar-left { display: flex; align-items: center; gap: 10px; }
+    .lb-type-badge {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 20px;
+    }
+    .lb-type-badge.is-vector { background: rgba(0,87,255,0.15); color: #4D8AFF; border: 1px solid rgba(0,87,255,0.25); }
+    .lb-type-badge.is-poster { background: rgba(255,101,0,0.15); color: #FF8533; border: 1px solid rgba(255,101,0,0.25); }
+    .lb-topbar-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem; color: var(--white); }
+    .lb-topbar-right { display: flex; align-items: center; gap: 8px; }
+    .lb-nav-btn {
+      display: flex; align-items: center; gap: 5px;
+      font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 500;
+      color: var(--muted); background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 7px; padding: 6px 12px;
+      cursor: pointer; transition: color 0.2s, border-color 0.2s;
+    }
+    .lb-nav-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
+    .lb-close {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.5); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .lb-close:hover { border-color: var(--white); color: var(--white); background: rgba(255,255,255,0.1); }
+    .lb-mode-strip {
+      display: flex; align-items: center;
+      padding: 0 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .lb-mode-btn {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 10px 18px; border: none; background: none;
+      color: rgba(255,255,255,0.3); cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      margin-bottom: -1px;
+    }
+    .lb-mode-btn.active { color: var(--white); border-bottom-color: #0057FF; }
+    .lb-body { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+    .lb-img-pane {
+      flex: 1; position: relative; background: #050810;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      min-height: 400px;
+    }
+    .lb-img-pane img {
+      max-width: 100%; max-height: 76vh;
+      object-fit: contain; display: block;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .lb-ann-overlay {
+      position: absolute; inset: 0;
+      pointer-events: none; opacity: 0;
+      transition: opacity 0.4s ease 0.2s;
+    }
+    .lb-ann-overlay.visible { opacity: 1; }
+    .ann-box {
+      position: absolute; border: 2px solid; border-radius: 6px; pointer-events: none;
+    }
+    .ann-box.blue   { border-color: #0057FF; box-shadow: 0 0 12px rgba(0,87,255,0.5); }
+    .ann-box.orange { border-color: #FF6500; box-shadow: 0 0 12px rgba(255,101,0,0.5); }
+    .ann-box.white  { border-color: rgba(255,255,255,0.8); box-shadow: 0 0 8px rgba(255,255,255,0.3); }
+    .ann-callout {
+      position: absolute; background: rgba(7,9,15,0.95);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 7px 10px; max-width: 145px;
+      pointer-events: none;
+    }
+    .ann-callout-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px;
+    }
+    .ann-callout-title.blue   { color: #4D8AFF; }
+    .ann-callout-title.orange { color: #FF8533; }
+    .ann-callout-title.white  { color: rgba(255,255,255,0.8); }
+    .ann-callout-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.62rem; color: rgba(255,255,255,0.5); line-height: 1.4;
+    }
+    .lb-info-pane {
+      width: 310px; flex-shrink: 0;
+      overflow-y: auto; overflow-x: hidden;
+      padding: 18px 18px; display: flex; flex-direction: column; gap: 16px;
+    }
+    .lb-info-pane::-webkit-scrollbar { width: 3px; }
+    .lb-info-pane::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+    .lb-section-head {
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); margin-bottom: 6px;
+    }
+    .lb-section-head::before { content: '+'; color: #0057FF; font-size: 0.8rem; }
+    .lb-section-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem; color: rgba(255,255,255,0.58); line-height: 1.75;
+    }
+    .lb-palette { display: flex; flex-direction: column; gap: 5px; }
+    .lb-swatch-row { display: flex; align-items: center; gap: 9px; }
+    .lb-swatch { width: 26px; height: 26px; border-radius: 6px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
+    .lb-swatch-hex { font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 600; color: rgba(255,255,255,0.7); }
+    .lb-swatch-name { font-family: 'DM Sans', sans-serif; font-size: 0.62rem; color: var(--muted); }
+    .lb-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .lb-tag { font-size: 0.67rem; font-family: 'Outfit', sans-serif; font-weight: 500; padding: 3px 9px; border-radius: 20px; }
+    .lb-tag.is-vector { background: rgba(0,87,255,0.1); color: #4D8AFF; border: 1px solid rgba(0,87,255,0.2); }
+    .lb-tag.is-poster { background: rgba(255,101,0,0.1); color: #FF8533; border: 1px solid rgba(255,101,0,0.2); }
+    .lb-tool-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'Outfit', sans-serif; font-size: 0.7rem; font-weight: 500;
+      color: var(--muted); background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 4px 12px;
+    }
+    .lb-tool-dot { width: 6px; height: 6px; border-radius: 50%; background: #0057FF; }
+    .lb-breakdown-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px; padding: 12px 14px;
+    }
+    .lb-breakdown-box-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 5px;
+    }
+    .lb-breakdown-box-title.blue   { color: #4D8AFF; }
+    .lb-breakdown-box-title.orange { color: #FF8533; }
+    .lb-breakdown-box-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.76rem; color: rgba(255,255,255,0.52); line-height: 1.65;
+    }
+
+    /* old carousel CSS removed — replaced by proj-grid above */
+
+    /* ── CONTACT SPLIT NEON GLASS ── */
+    #contact {
+      position: relative;
+      padding: 120px 80px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* animated noise bg */
+    .ct-bg-glow {
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 50%, rgba(0,87,255,0.09) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 80% 50%, rgba(255,101,0,0.07) 0%, transparent 65%);
+      animation: bgBreathe 8s ease-in-out infinite alternate;
+    }
+    @keyframes bgBreathe {
+      0%   { opacity: 0.6; transform: scale(1); }
+      100% { opacity: 1;   transform: scale(1.08); }
+    }
+
+    /* floating micro-particles */
+    .ct-particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: ctFloat linear infinite;
+      opacity: 0;
+    }
+    @keyframes ctFloat {
+      0%   { opacity: 0; transform: translateY(60px) scale(0.5); }
+      15%  { opacity: 0.8; }
+      85%  { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(-40px) scale(1.2); }
+    }
+
+    /* header */
+    .ct-header {
+      text-align: center;
+      position: relative; z-index: 2;
+      margin-bottom: 60px;
+    }
+    .ct-avail {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 50px; padding: 6px 16px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      color: #10B981; margin-bottom: 18px;
+      letter-spacing: 0.05em;
+    }
+    .ct-avail-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #10B981; position: relative;
+    }
+    .ct-avail-dot::after {
+      content: ''; position: absolute; inset: -3px;
+      border-radius: 50%; background: rgba(16,185,129,0.4);
+      animation: ping 1.5s ease-out infinite;
+    }
+    .ct-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 10px;
+    }
+    .ct-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      line-height: 1.1; color: var(--white); margin-bottom: 14px;
+    }
+    .ct-title .hl { color: var(--blue); }
+    .ct-subtitle {
+      font-size: 0.92rem; color: var(--muted);
+      max-width: 460px; margin: 0 auto; line-height: 1.7;
+    }
+
+    /* ── MAIN SPLIT LAYOUT ── */
+    .ct-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      position: relative; z-index: 2;
+      max-width: 1000px; margin: 0 auto;
+      border-radius: 24px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.04);
+    }
+
+    /* divider line in center */
+    .ct-split::before {
+      content: '';
+      position: absolute;
+      top: 5%; bottom: 5%;
+      left: 50%; width: 1px;
+      background: linear-gradient(to bottom,
+        transparent,
+        rgba(0,87,255,0.4) 30%,
+        rgba(255,101,0,0.3) 70%,
+        transparent);
+      z-index: 10;
+      animation: dividerPulse 3s ease-in-out infinite;
+    }
+    @keyframes dividerPulse {
+      0%,100% { opacity: 0.5; }
+      50%      { opacity: 1; }
+    }
+
+    /* ── LEFT — FORM GLASS PANEL ── */
+    .ct-left {
+      background: rgba(0,10,30,0.6);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      padding: 44px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* animated top shimmer on left panel */
+    .ct-left::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; right: -100%;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0,87,255,0.8) 40%,
+        rgba(61,126,255,1) 50%,
+        rgba(0,87,255,0.8) 60%,
+        transparent 100%);
+      animation: shimmerSweep 4s ease-in-out infinite;
+    }
+    @keyframes shimmerSweep {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* blue glow orb inside left */
+    .ct-left-orb {
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(0,87,255,0.08);
+      filter: blur(60px);
+      top: -80px; right: -80px;
+      pointer-events: none;
+      animation: orbDrift 6s ease-in-out infinite alternate;
+    }
+    @keyframes orbDrift {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(-20px,20px) scale(1.1); }
+    }
+
+    .ct-form-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700; font-size: 1.15rem;
+      color: var(--white); margin-bottom: 6px;
+      position: relative; z-index: 1;
+    }
+    .ct-form-sub {
+      font-size: 0.78rem; color: var(--muted);
+      margin-bottom: 28px; line-height: 1.5;
+      position: relative; z-index: 1;
+    }
+
+    /* service selector */
+    .ct-service-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 10px; display: block;
+      position: relative; z-index: 1;
+    }
+    .ct-services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px; margin-bottom: 18px;
+      position: relative; z-index: 1;
+    }
+    .ct-service {
+      position: relative;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 14px 8px;
+      cursor: pointer;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 6px;
+      transition: all 0.25s cubic-bezier(0.23,1,0.32,1);
+      overflow: hidden; user-select: none;
+    }
+    .ct-service::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,87,255,0.1), transparent);
+      opacity: 0; transition: opacity 0.25s ease; border-radius: 12px;
+    }
+    .ct-service:hover { border-color: rgba(0,87,255,0.3); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,87,255,0.12); }
+    .ct-service:hover::before { opacity: 1; }
+    .ct-service.selected {
+      border-color: rgba(0,87,255,0.6);
+      background: rgba(0,87,255,0.1);
+      box-shadow: 0 0 0 3px rgba(0,87,255,0.12), 0 8px 30px rgba(0,87,255,0.2);
+      transform: translateY(-3px);
+    }
+    .ct-service.selected::before { opacity: 1; }
+    .ct-service-icon { font-size: 1.5rem; transition: transform 0.3s ease; }
+    .ct-service:hover .ct-service-icon,
+    .ct-service.selected .ct-service-icon { transform: scale(1.2); }
+    .ct-service-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.67rem; font-weight: 600;
+      color: rgba(255,255,255,0.45);
+      text-align: center; line-height: 1.3;
+      transition: color 0.25s ease;
+    }
+    .ct-service.selected .ct-service-name { color: #4D8AFF; }
+    .ct-service:hover .ct-service-name { color: rgba(255,255,255,0.8); }
+    .ct-service-check {
+      position: absolute; top: 7px; right: 7px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #0057FF;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0);
+      transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.23,1,0.32,1);
+    }
+    .ct-service.selected .ct-service-check { opacity: 1; transform: scale(1); }
+
+    /* fields */
+    .ct-field {
+      margin-bottom: 16px;
+      position: relative; z-index: 1;
+    }
+    .ct-field-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 7px; display: block;
+      transition: color 0.2s ease;
+    }
+    .ct-field:focus-within .ct-field-label { color: #4D8AFF; }
+
+    .ct-inp {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 13px 16px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      transition: all 0.3s ease;
+      resize: none;
+      backdrop-filter: blur(8px);
+    }
+    .ct-inp::placeholder { color: rgba(255,255,255,0.18); }
+    .ct-inp:focus {
+      border-color: rgba(0,87,255,0.6);
+      background: rgba(0,87,255,0.06);
+      box-shadow: 0 0 0 3px rgba(0,87,255,0.1),
+                  inset 0 0 20px rgba(0,87,255,0.05);
+    }
+
+    .ct-char {
+      position: absolute; bottom: 12px; right: 14px;
+      font-size: 0.62rem; color: rgba(255,255,255,0.18);
+      font-family: 'Outfit', sans-serif;
+      transition: color 0.2s; pointer-events: none;
+    }
+
+    /* send button */
+    .ct-btn {
+      width: 100%; position: relative; overflow: hidden;
+      border: none; border-radius: 14px;
+      padding: 15px 24px; cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.92rem; font-weight: 700;
+      letter-spacing: 0.04em; color: var(--white);
+      background: linear-gradient(135deg, #0057FF 0%, #0040C0 100%);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-top: 6px; z-index: 1;
+    }
+    .ct-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #3D7EFF 0%, #0057FF 100%);
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .ct-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,87,255,0.5),
+                  0 0 80px rgba(0,87,255,0.15);
+    }
+    .ct-btn:hover::before { opacity: 1; }
+    .ct-btn span, .ct-btn svg { position: relative; z-index: 1; }
+    .ct-btn svg { transition: transform 0.3s; }
+    .ct-btn:hover svg { transform: translateX(5px); }
+
+    /* ripple */
+    .ct-ripple {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      transform: scale(0);
+      animation: rippleOut 0.7s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes rippleOut { to { transform: scale(5); opacity: 0; } }
+
+    /* success */
+    .ct-success {
+      display: none; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 14px; padding: 40px 20px; text-align: center;
+      position: relative; z-index: 1;
+    }
+    .ct-success-ring {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(16,185,129,0.12);
+      border: 2px solid rgba(16,185,129,0.4);
+      display: flex; align-items: center; justify-content: center;
+      animation: popIn 0.5s cubic-bezier(0.23,1,0.32,1) forwards;
+    }
+    @keyframes popIn {
+      from { transform: scale(0) rotate(-20deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0); opacity: 1; }
+    }
+    .ct-success-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700; font-size: 1.2rem; color: var(--white);
+    }
+    .ct-success-body {
+      font-size: 0.82rem; color: var(--muted); line-height: 1.65;
+    }
+
+    /* ── RIGHT — GLASS INFO PANEL ── */
+    .ct-right {
+      background: rgba(5,3,20,0.55);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 44px 40px;
+      display: flex; flex-direction: column; gap: 14px;
+      position: relative; overflow: hidden;
+    }
+
+    /* orange orb inside right */
+    .ct-right::before {
+      content: '';
+      position: absolute;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: rgba(255,101,0,0.07);
+      filter: blur(60px);
+      bottom: -80px; left: -60px;
+      pointer-events: none;
+      animation: orbDrift 7s ease-in-out infinite alternate-reverse;
+    }
+
+    /* right bottom shimmer */
+    .ct-right::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: -100%; right: -100%;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent, rgba(255,101,0,0.6), transparent);
+      animation: shimmerSweep 5s ease-in-out 2s infinite;
+    }
+
+    .ct-right-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700; font-size: 1.15rem;
+      color: var(--white); margin-bottom: 4px;
+      position: relative; z-index: 1;
+    }
+    .ct-right-sub {
+      font-size: 0.78rem; color: var(--muted);
+      margin-bottom: 12px; line-height: 1.5;
+      position: relative; z-index: 1;
+    }
+
+    /* info cards */
+    .ct-card {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex; align-items: center; gap: 14px;
+      text-decoration: none;
+      position: relative; overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.23,1,0.32,1),
+                  border-color 0.3s ease,
+                  background 0.3s ease,
+                  box-shadow 0.3s ease;
+      cursor: pointer; z-index: 1;
+    }
+    /* glass shine sweep on hover */
+    .ct-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(105deg,
+        transparent 30%,
+        rgba(255,255,255,0.06) 50%,
+        transparent 70%);
+      transition: left 0.5s ease;
+    }
+    .ct-card:hover::before { left: 150%; }
+
+    .ct-card:hover {
+      transform: translateX(8px);
+      border-color: rgba(0,87,255,0.3);
+      background: rgba(0,87,255,0.06);
+      box-shadow: 0 8px 32px rgba(0,87,255,0.12),
+                  inset 0 0 20px rgba(0,87,255,0.03);
+    }
+
+    .ct-card-icon {
+      width: 42px; height: 42px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: transform 0.3s ease;
+    }
+    .ct-card:hover .ct-card-icon { transform: scale(1.1) rotate(-5deg); }
+    .ic-blue   { background: rgba(0,87,255,0.12);  color: #4D8AFF; border: 1px solid rgba(0,87,255,0.2); }
+    .ic-orange { background: rgba(255,101,0,0.12); color: #FF8533; border: 1px solid rgba(255,101,0,0.2); }
+    .ic-li     { background: rgba(0,119,181,0.12); color: #0A66C2; border: 1px solid rgba(0,119,181,0.2); }
+    .ic-purple { background: rgba(162,89,255,0.12);color: #A259FF; border: 1px solid rgba(162,89,255,0.2); }
+
+    .ct-card-body { flex: 1; min-width: 0; }
+    .ct-card-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.28); margin-bottom: 2px;
+    }
+    .ct-card-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.84rem; font-weight: 500;
+      color: var(--white);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .ct-card-arrow {
+      color: rgba(255,255,255,0.18);
+      transition: color 0.3s, transform 0.3s; flex-shrink: 0;
+    }
+    .ct-card:hover .ct-card-arrow { color: #4D8AFF; transform: translateX(4px); }
+
+    /* response chip */
+    .ct-chip {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px; padding: 12px 16px;
+      position: relative; z-index: 1;
+    }
+    .ct-chip-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .ct-chip-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.76rem; color: rgba(255,255,255,0.45); line-height: 1.5;
+    }
+    .ct-chip-text strong {
+      color: var(--white); font-family: 'Outfit', sans-serif;
+      font-weight: 600; display: block; font-size: 0.82rem; margin-bottom: 1px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 32px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-logo { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--white); }
+    .footer-logo span { color: var(--blue); }
+    .footer-logo .dot2 { color: var(--orange); }
+    .footer-copy { font-size: 0.8rem; color: var(--muted); }
+    .footer-social { display: flex; gap: 12px; }
+    .social-btn {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .social-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+    /* Scroll fade */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    /* Staggered fade delays */
+    .fade-up:nth-child(2) { transition-delay: 0.1s; }
+    .fade-up:nth-child(3) { transition-delay: 0.2s; }
+    /* ── MOBILE OVERLAY ── */
+    .mob-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #010208;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* only show on small screens */
+    @media (max-width: 768px) {
+      .mob-overlay { display: flex; }
+    }
+
+    /* animated bg orbs */
+    .mob-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      pointer-events: none;
+      animation: mobOrbPulse 5s ease-in-out infinite alternate;
+    }
+    .mob-orb-1 {
+      width: 280px; height: 280px;
+      background: rgba(0,87,255,0.18);
+      top: -80px; left: -60px;
+    }
+    .mob-orb-2 {
+      width: 220px; height: 220px;
+      background: rgba(255,101,0,0.14);
+      bottom: -60px; right: -50px;
+      animation-delay: 2.5s;
+    }
+    @keyframes mobOrbPulse {
+      0%   { transform: scale(1);   opacity: 0.7; }
+      100% { transform: scale(1.2); opacity: 1; }
+    }
+
+    /* grid bg */
+    .mob-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,87,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,87,255,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    /* content */
+    .mob-content {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0;
+    }
+
+    /* logo */
+    .mob-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700; font-size: 1.8rem;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+    .mob-logo span { color: #0057FF; }
+    .mob-logo .mob-dot2 { color: #FF6500; }
+
+    /* desktop icon animated */
+    .mob-icon-wrap {
+      width: 88px; height: 88px;
+      border-radius: 24px;
+      background: rgba(0,87,255,0.1);
+      border: 1px solid rgba(0,87,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 28px;
+      position: relative;
+      animation: mobIconFloat 3s ease-in-out infinite;
+    }
+    @keyframes mobIconFloat {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .mob-icon-wrap::before {
+      content: '';
+      position: absolute; inset: -1px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(0,87,255,0.4), rgba(255,101,0,0.2));
+      z-index: -1;
+      animation: mobBorderSpin 4s linear infinite;
+    }
+    @keyframes mobBorderSpin {
+      0%   { opacity: 0.4; }
+      50%  { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+
+    .mob-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      line-height: 1.25;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .mob-title span { color: #0057FF; }
+
+    .mob-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.7;
+      max-width: 300px;
+      margin-bottom: 36px;
+    }
+
+    /* desktop steps */
+    .mob-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 32px;
+    }
+    .mob-step {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 12px 16px;
+      text-align: left;
+    }
+    .mob-step-num {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: rgba(0,87,255,0.15);
+      border: 1px solid rgba(0,87,255,0.3);
+      color: #4D8AFF;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .mob-step-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.4;
+    }
+    .mob-step-text strong {
+      color: var(--white);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      display: block;
+      font-size: 0.82rem;
+    }
+
+    /* continue btn */
+    .mob-continue {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem; font-weight: 500;
+      color: rgba(255,255,255,0.3);
+      background: none; border: none;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.2s;
+      padding: 8px;
+    }
+    .mob-continue:hover { color: rgba(255,255,255,0.6); }
+
+    /* shimmer line at top */
+    .mob-shimmer {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg,
+        transparent, #0057FF, #FF6500, transparent);
+      background-size: 200% 100%;
+      animation: mobShimmer 2.5s linear infinite;
+    }
+    @keyframes mobShimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── MOBILE OVERLAY ── -->
+<div class="mob-overlay" id="mobOverlay">
+  <div class="mob-shimmer"></div>
+  <div class="mob-grid"></div>
+  <div class="mob-orb mob-orb-1"></div>
+  <div class="mob-orb mob-orb-2"></div>
+
+  <div class="mob-content">
+    <div class="mob-logo">AADI<span>.</span><span class="mob-dot2">.</span></div>
+
+    <div class="mob-icon-wrap">
+      <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#4D8AFF" stroke-width="1.4">
+        <rect x="2" y="3" width="20" height="14" rx="2"/>
+        <path d="M8 21h8M12 17v4"/>
+      </svg>
+    </div>
+
+    <div class="mob-title">Best Viewed on<br/><span>Desktop</span></div>
+    <p class="mob-desc">This portfolio is crafted for a full desktop experience with animations, 3D effects and design breakdowns that shine on a bigger screen.</p>
+
+    <div class="mob-steps">
+      <div class="mob-step">
+        <div class="mob-step-num">1</div>
+        <div class="mob-step-text">
+          <strong>Copy the link</strong>
+          From your browser address bar
+        </div>
+      </div>
+      <div class="mob-step">
+        <div class="mob-step-num">2</div>
+        <div class="mob-step-text">
+          <strong>Open on Desktop</strong>
+          Paste it in Chrome or any browser
+        </div>
+      </div>
+      <div class="mob-step">
+        <div class="mob-step-num">3</div>
+        <div class="mob-step-text">
+          <strong>Explore the full experience</strong>
+          All animations and breakdowns unlocked
+        </div>
+      </div>
+    </div>
+
+    <button class="mob-continue" onclick="document.getElementById('mobOverlay').style.display='none'">
+      Continue on mobile anyway →
+    </button>
+  </div>
+</div>
+
+<!-- ── PRELOADER ── -->
+<div id="preloader">
+  <div class="pre-logo">AADI<span>.</span><span class="dot2">.</span></div>
+  <div class="pre-bar"><div class="pre-fill"></div></div>
+  <div class="pre-text">Loading Portfolio</div>
+</div>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <div class="logo">AADI<span>.</span><span class="dot2">.</span></div>
+  <ul class="nav-links">
+    <li><a href="#home" class="active"><span>Home</span></a></li>
+    <li><a href="#about"><span>About</span></a></li>
+    <li><a href="#skills"><span>Skills</span></a></li>
+    <li><a href="#projects"><span>Projects</span></a></li>
+    <li><a href="#contact"><span>Contact</span></a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#contact" class="nav-hire"><div class="ping"></div><span>Hire Me</span></a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="home">
+  <img class="hero-bg" src="Hero_Section.png" alt="" />
+  <div class="hero-overlay"></div>
+  <div class="space-particles" id="particles"></div>
+  <div class="hero-content">
+    <p class="hero-greeting">Hi, I'm</p>
+    <h1 class="hero-name">
+      <span class="first">Aadi </span><span class="last">Bhawsar</span>
+    </h1>
+    <div class="hero-roles">
+      <span class="role-blue">Web Designer</span>
+      <span class="role-divider">|</span>
+      <span class="role-orange">Graphic Designer</span>
+    </div>
+    <p class="hero-desc">I design and build modern websites and create visuals that make an impact. Turning ideas into bold digital experiences.</p>
+    <div class="magnetic-wrap" id="magnetWrap">
+      <a href="#projects" class="hero-cta" id="magnetBtn">
+        View My Work
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="hero-cards">
+    <div class="service-card">
+      <div class="service-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+        </svg>
+      </div>
+      <div class="service-title">Web Design</div>
+      <div class="service-desc">Modern & Responsive<br/>Website Design</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 19l7-7-3-3-7 7v3h3z"/><path d="M18 13l1.5-1.5a2.121 2.121 0 00-3-3L15 10"/>
+        </svg>
+      </div>
+      <div class="service-title">Graphic Design</div>
+      <div class="service-desc">Creative Visuals<br/>& Brand Identity</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </div>
+      <div class="service-title">Creative Projects</div>
+      <div class="service-desc">Unique Ideas<br/>Brought to Life</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="about-grid fade-up">
+    <div>
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">17-year-old Designer<br/>& Developer</h2>
+      <p style="color:var(--muted);line-height:1.8;font-size:0.95rem;margin-bottom:16px;">
+        I'm a self-taught graphic designer and frontend developer from Dewas, India. Three months into my design journey, I've already built a diverse body of work — from vector illustrations to automotive posters.
+      </p>
+      <p style="color:var(--muted);line-height:1.8;font-size:0.95rem;">
+        I work in Figma and Adobe Photoshop, with strong foundations in HTML, CSS, and JavaScript. Currently exploring UI/UX design and vibe coding to push my craft further.
+      </p>
+      <div class="about-stats">
+        <div class="stat-card" style="--s-color:#0057FF;--s-glow:rgba(0,87,255,0.35);">
+          <div class="stat-icon">🎨</div>
+          <div class="stat-number" data-target="7">0</div><div class="stat-plus">+</div>
+          <div class="stat-label">Vector Artworks</div>
+          <div class="stat-shine"></div>
+        </div>
+        <div class="stat-card" style="--s-color:#FF6500;--s-glow:rgba(255,101,0,0.35);">
+          <div class="stat-icon">🖼️</div>
+          <div class="stat-number" data-target="12">0</div><div class="stat-plus">+</div>
+          <div class="stat-label">Creative Posters</div>
+          <div class="stat-shine"></div>
+        </div>
+        <div class="stat-card" style="--s-color:#A259FF;--s-glow:rgba(162,89,255,0.35);">
+          <div class="stat-icon">📅</div>
+          <div class="stat-number" data-target="3">0</div><div class="stat-plus"></div>
+          <div class="stat-label">Months in Design</div>
+          <div class="stat-shine"></div>
+        </div>
+        <div class="stat-card" style="--s-color:#31A8FF;--s-glow:rgba(49,168,255,0.35);">
+          <div class="stat-icon">🛠️</div>
+          <div class="stat-number" data-target="5">0</div><div class="stat-plus">+</div>
+          <div class="stat-label">Tools in Use</div>
+          <div class="stat-shine"></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="tools-grid">
+        <div class="tool-card" style="--glow:#31A8FF;">
+          <div class="tool-icon-wrap">
+            <img src="photoshop.png" width="42" height="42" alt="Photoshop" style="object-fit:contain;" />
+          </div>
+          <div class="tool-name">Adobe Photoshop</div>
+          <div class="tool-level">Intermediate · 40%</div>
+          <div class="tool-bar"><div class="tool-fill" data-w="40" style="background:#31A8FF;"></div></div>
+        </div>
+        <div class="tool-card" style="--glow:#A259FF;">
+          <div class="tool-icon-wrap">
+            <img src="figma.png" width="42" height="42" alt="Figma" style="object-fit:contain;" />
+          </div>
+          <div class="tool-name">Figma</div>
+          <div class="tool-level">Learning · 35%</div>
+          <div class="tool-bar"><div class="tool-fill" data-w="35" style="background:linear-gradient(to right,#F24E1E,#A259FF);"></div></div>
+        </div>
+        <div class="tool-card" style="--glow:#E34C26;">
+          <div class="tool-icon-wrap">
+            <img src="Html.png" width="42" height="42" alt="HTML" style="object-fit:contain;" />
+          </div>
+          <div class="tool-name">HTML</div>
+          <div class="tool-level">Completed · 75%</div>
+          <div class="tool-bar"><div class="tool-fill" data-w="75" style="background:#E34C26;"></div></div>
+        </div>
+        <div class="tool-card" style="--glow:#264DE4;">
+          <div class="tool-icon-wrap">
+            <img src="Css.png" width="42" height="42" alt="CSS" style="object-fit:contain;" />
+          </div>
+          <div class="tool-name">CSS</div>
+          <div class="tool-level">Completed · 75%</div>
+          <div class="tool-bar"><div class="tool-fill" data-w="75" style="background:#264DE4;"></div></div>
+        </div>
+        <div class="tool-card" style="--glow:#F7DF1E;">
+          <div class="tool-icon-wrap">
+            <img src="Java_Script.png" width="42" height="42" alt="JavaScript" style="object-fit:contain;" />
+          </div>
+          <div class="tool-name">JavaScript</div>
+          <div class="tool-level">Basics · 20%</div>
+          <div class="tool-bar"><div class="tool-fill" data-w="20" style="background:#F7DF1E;"></div></div>
+        </div>
+        <div class="tool-card" style="--glow:#B44FFF;">
+          <div class="tool-icon-wrap">
+            <img src="Vibe_Coding.png" width="42" height="42" alt="Vibe Coding" style="object-fit:contain;" />
+          </div>
+          <div class="tool-name">Vibe Coding</div>
+          <div class="tool-level">Learning · 30%</div>
+          <div class="tool-bar"><div class="tool-fill" data-w="30" style="background:linear-gradient(to right,#B44FFF,#0057FF);"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <p class="section-label">What I Do</p>
+  <h2 class="section-title">Skills & Expertise</h2>
+  <p class="section-subtitle">Hover a star to explore each skill — blue for dev, orange for design.</p>
+  <div class="constellation-wrap">
+    <div class="const-nebula"></div>
+    <svg class="const-lines" id="constLines" xmlns="http://www.w3.org/2000/svg"></svg>
+
+    <!-- DESIGN STARS — right side -->
+    <div class="star-node star-orange" style="left:68%;top:16%;" data-name="Photoshop" data-type="Graphic Design">
+      <div class="star-core"><img src="photoshop.png" /></div>
+      <div class="star-ring"></div>
+      <div class="star-label">Photoshop</div>
+    </div>
+    <div class="star-node star-orange" style="left:82%;top:38%;" data-name="Figma" data-type="UI / UX Design">
+      <div class="star-core"><img src="figma.png" /></div>
+      <div class="star-ring"></div>
+      <div class="star-label">Figma</div>
+    </div>
+    <div class="star-node star-orange" style="left:65%;top:65%;" data-name="Vector Art" data-type="Illustration">
+      <div class="star-core"><span>🎨</span></div>
+      <div class="star-ring"></div>
+      <div class="star-label">Vector Art</div>
+    </div>
+    <div class="star-node star-orange" style="left:84%;top:68%;" data-name="Color Theory" data-type="Design Fundamentals">
+      <div class="star-core"><span>🌈</span></div>
+      <div class="star-ring"></div>
+      <div class="star-label">Color Theory</div>
+    </div>
+    <!-- DEV STARS — left side -->
+    <div class="star-node star-blue" style="left:16%;top:16%;" data-name="HTML" data-type="Frontend Dev">
+      <div class="star-core"><img src="Html.png" /></div>
+      <div class="star-ring"></div>
+      <div class="star-label">HTML</div>
+    </div>
+    <div class="star-node star-blue" style="left:32%;top:36%;" data-name="CSS" data-type="Frontend Dev">
+      <div class="star-core"><img src="Css.png" /></div>
+      <div class="star-ring"></div>
+      <div class="star-label">CSS</div>
+    </div>
+    <div class="star-node star-blue" style="left:14%;top:65%;" data-name="JavaScript" data-type="Frontend Dev">
+      <div class="star-core"><img src="Java_Script.png" /></div>
+      <div class="star-ring"></div>
+      <div class="star-label">JavaScript</div>
+    </div>
+    <div class="star-node star-blue" style="left:34%;top:72%;" data-name="Vibe Coding" data-type="Live Coding">
+      <div class="star-core"><img src="Vibe_Coding.png" /></div>
+      <div class="star-ring"></div>
+      <div class="star-label">Vibe Coding</div>
+    </div>
+    <!-- CENTER -->
+    <div class="star-node star-center" style="left:50%;top:44%;">
+      <div class="star-core-center">AADI</div>
+      <div class="star-ring"></div>
+      <div class="star-ring star-ring-2"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <p class="section-label">Portfolio</p>
+  <h2 class="section-title">My Work</h2>
+  <p class="section-subtitle">Filter by category · Click any card to view full image</p>
+
+  <div class="proj-filter">
+    <button class="proj-tab active" onclick="projFilter('all',this)">All</button>
+    <button class="proj-tab" onclick="projFilter('vector',this)">🔷 Vectors</button>
+    <button class="proj-tab" onclick="projFilter('poster',this)">🟠 Posters</button>
+  </div>
+
+  <div class="proj-count" id="projCount"><span>19</span> projects</div>
+  <div class="proj-grid" id="projGrid"></div>
+</section>
+
+<!-- ── LIGHTBOX ── -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-shell" id="lbShell">
+
+    <!-- TOP BAR -->
+    <div class="lb-topbar">
+      <div class="lb-topbar-left">
+        <span class="lb-type-badge" id="lbTypeBadge"></span>
+        <span class="lb-topbar-title" id="lbTopTitle"></span>
+      </div>
+      <div class="lb-topbar-right">
+        <button class="lb-nav-btn" onclick="lbStep(-1)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg> Prev
+        </button>
+        <button class="lb-nav-btn" onclick="lbStep(1)">
+          Next <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <button class="lb-close" onclick="closeFromBtn()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- MODE TOGGLE -->
+    <div class="lb-mode-strip" id="lbModeStrip">
+      <button class="lb-mode-btn active" id="modeBtnView" onclick="setMode('view')">View</button>
+      <button class="lb-mode-btn" id="modeBtnBreak" onclick="setMode('breakdown')">Design Breakdown</button>
+    </div>
+
+    <!-- BODY -->
+    <div class="lb-body">
+      <!-- Image -->
+      <div class="lb-img-pane" id="lbImgPane">
+        <img id="lbImg" src="" alt="" />
+        <div class="lb-ann-overlay" id="lbAnnOverlay"></div>
+      </div>
+
+      <!-- Info -->
+      <div class="lb-info-pane" id="lbInfoPane">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="ct-bg-glow"></div>
+  <div id="ctParticles"></div>
+
+  <div class="ct-header fade-up">
+    <div class="ct-avail"><div class="ct-avail-dot"></div>Available for freelance</div>
+    <p class="ct-label">Let's Talk</p>
+    <h2 class="ct-title">Work With <span class="hl">Me</span></h2>
+    <p class="ct-subtitle">Have a project in mind? I'd love to collaborate. Reach out and let's build something extraordinary.</p>
+  </div>
+
+  <div class="ct-split fade-up">
+
+    <!-- LEFT: FORM -->
+    <div class="ct-left">
+      <div class="ct-left-orb"></div>
+      <div class="ct-form-title">Send a Message</div>
+      <div class="ct-form-sub">Fill in the details and I'll get back to you within 24 hours.</div>
+
+      <form id="ctForm" action="https://formspree.io/f/xojbyrak" method="POST">
+
+        <!-- Service Selector -->
+        <label class="ct-service-label">I need help with</label>
+        <div class="ct-services">
+          <div class="ct-service" onclick="selectService(this,'Vector Art')">
+            <div class="ct-service-check">
+              <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5"><path d="M2 6l3 3 5-5"/></svg>
+            </div>
+            <div class="ct-service-icon">🎨</div>
+            <div class="ct-service-name">Vector Art</div>
+          </div>
+          <div class="ct-service" onclick="selectService(this,'Poster Design')">
+            <div class="ct-service-check">
+              <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5"><path d="M2 6l3 3 5-5"/></svg>
+            </div>
+            <div class="ct-service-icon">🖼️</div>
+            <div class="ct-service-name">Poster Design</div>
+          </div>
+          <div class="ct-service" onclick="selectService(this,'UI/UX Design')">
+            <div class="ct-service-check">
+              <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5"><path d="M2 6l3 3 5-5"/></svg>
+            </div>
+            <div class="ct-service-icon">🎯</div>
+            <div class="ct-service-name">UI/UX Design</div>
+          </div>
+        </div>
+        <input type="hidden" name="service" id="ctService" value="" />
+
+        <div class="ct-field">
+          <label class="ct-field-label">Your Name</label>
+          <input class="ct-inp" type="text" name="name" placeholder="e.g. Your Name" required />
+        </div>
+        <div class="ct-field">
+          <label class="ct-field-label">Email Address</label>
+          <input class="ct-inp" type="email" name="email" placeholder="your@email.com" required />
+        </div>
+        <div class="ct-field" style="position:relative;">
+          <label class="ct-field-label">Your Message</label>
+          <textarea class="ct-inp" name="message" rows="4" placeholder="Tell me about your project, idea or collab..." maxlength="500" id="ctMsg"></textarea>
+          <div class="ct-char"><span id="ctCount">0</span>/500</div>
+        </div>
+        <button type="submit" class="ct-btn" id="ctBtn">
+          <span>Send Message</span>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </form>
+
+      <div class="ct-success" id="ctSuccess">
+        <div class="ct-success-ring">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+        </div>
+        <div class="ct-success-title">Message Sent! 🎉</div>
+        <div class="ct-success-body">Thanks for reaching out, I'll reply within 24 hours. Let's build something great together!</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: INFO -->
+    <div class="ct-right">
+      <div class="ct-right-title">Reach Out Directly</div>
+      <div class="ct-right-sub">Pick any platform you prefer — I'm active on all of them.</div>
+
+      <a class="ct-card" href="mailto:bhawsaraadi78@gmail.com">
+        <div class="ct-card-icon ic-blue">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <div class="ct-card-body">
+          <div class="ct-card-label">Email</div>
+          <div class="ct-card-val">bhawsaraadi78@gmail.com</div>
+        </div>
+        <svg class="ct-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a class="ct-card" href="https://instagram.com/design_corestudio" target="_blank">
+        <div class="ct-card-icon ic-orange">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="ct-card-body">
+          <div class="ct-card-label">Instagram</div>
+          <div class="ct-card-val">@design_corestudio</div>
+        </div>
+        <svg class="ct-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a class="ct-card" href="https://linkedin.com/in/aadi-bhawsar" target="_blank">
+        <div class="ct-card-icon ic-li">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+        </div>
+        <div class="ct-card-body">
+          <div class="ct-card-label">LinkedIn</div>
+          <div class="ct-card-val">Aadi Bhawsar</div>
+        </div>
+        <svg class="ct-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <div class="ct-card" style="cursor:default;">
+        <div class="ct-card-icon ic-purple">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <div class="ct-card-body">
+          <div class="ct-card-label">Location</div>
+          <div class="ct-card-val">Dewas, Madhya Pradesh, India</div>
+        </div>
+      </div>
+
+      <div class="ct-chip">
+        <div class="ct-chip-icon">⚡</div>
+        <div class="ct-chip-text">
+          <strong>Fast Response Guaranteed</strong>
+          Open to freelance, collabs and creative projects.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">AADI<span>.</span><span class="dot2">.</span></div>
+  <div class="footer-copy">© 2026 Aadi Bhawsar. All rights reserved.</div>
+  <div class="footer-social">
+    <a href="https://instagram.com/design_corestudio" class="social-btn" title="Instagram" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="20" height="20" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+      </svg>
+    </a>
+    <a href="#" class="social-btn" title="LinkedIn" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+        <rect x="2" y="9" width="4" height="12"/>
+        <circle cx="4" cy="4" r="2"/>
+      </svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+  // ── PRELOADER ──
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('preloader').classList.add('hidden');
+    }, 1600);
+  });
+
+  // ── NAVBAR ──
+  const navbar = document.getElementById('navbar');
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const current = window.scrollY;
+    navbar.classList.toggle('hidden', current > lastScroll && current > 80);
+    navbar.classList.remove('hidden');  // only hide on mobile; desktop always show
+    navbar.classList.toggle('scrolled', current > 20);
+    lastScroll = current;
+  });
+
+  // Active nav links
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${current}`));
+  });
+
+  // ── CONSTELLATION ──
+  (function() {
+    const wrap = document.querySelector('.constellation-wrap');
+    const svg  = document.getElementById('constLines');
+    if (!wrap || !svg) return;
+    for (let i = 0; i < 55; i++) {
+      const d = document.createElement('div');
+      d.className = 'const-dot';
+      const size = Math.random() * 2.5 + 1;
+      const isBlue = Math.random() > 0.5;
+      const x = isBlue ? Math.random() * 44 : 56 + Math.random() * 40;
+      const y = Math.random() * 100;
+      d.style.cssText = `width:${size}px;height:${size}px;left:${x}%;top:${y}%;background:${isBlue?'#0057FF':'#FF6500'};box-shadow:0 0 ${size*3}px ${isBlue?'rgba(0,87,255,0.9)':'rgba(255,101,0,0.9)'};animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s;`;
+      wrap.appendChild(d);
+    }
+    const nodes = wrap.querySelectorAll('.star-node');
+    const ww = wrap.offsetWidth, wh = wrap.offsetHeight;
+    function pct(el, axis) { return (parseFloat(el.style[axis==='x'?'left':'top'])/100)*(axis==='x'?ww:wh); }
+    const connections = [[8,0],[8,1],[8,2],[8,3],[8,4],[8,5],[8,6],[8,7],[0,1],[1,2],[2,3],[4,5],[5,6],[6,7]];
+    connections.forEach(([a,b]) => {
+      const na = nodes[a], nb = nodes[b];
+      if (!na || !nb) return;
+      const isBlue = na.classList.contains('star-blue') || nb.classList.contains('star-blue');
+      const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1', pct(na,'x')); line.setAttribute('y1', pct(na,'y'));
+      line.setAttribute('x2', pct(nb,'x')); line.setAttribute('y2', pct(nb,'y'));
+      line.setAttribute('stroke', isBlue ? 'rgba(0,87,255,0.25)' : 'rgba(255,101,0,0.25)');
+      line.setAttribute('stroke-width','1');
+      line.setAttribute('stroke-dasharray','4 6');
+      svg.appendChild(line);
+    });
+  })();
+
+  // ── COUNT-UP ──
+  function countUp(el, target, duration=1500) {
+    let start = 0;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { el.textContent = target; clearInterval(timer); }
+      else el.textContent = Math.floor(start);
+    }, 16);
+  }
+  const statObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('.stat-number[data-target]').forEach(el => countUp(el, parseInt(el.dataset.target)));
+        statObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+  const statsGrid = document.querySelector('.about-stats');
+  if (statsGrid) statObserver.observe(statsGrid);
+
+  // ── TOOL BAR ANIMATION ──
+  const toolObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.tool-fill').forEach(f => {
+          f.style.width = f.dataset.w + '%';
+        });
+        toolObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+  const aboutSection = document.getElementById('about');
+  if (aboutSection) toolObserver.observe(aboutSection);
+
+  // ── FADE UP ──
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  fadeEls.forEach(el => observer.observe(el));
+
+  // ── MAGNETIC BUTTON ──
+  const mWrap = document.getElementById('magnetWrap');
+  const mBtn  = document.getElementById('magnetBtn');
+  mWrap.addEventListener('mousemove', e => {
+    const r = mWrap.getBoundingClientRect();
+    const dx = (e.clientX - r.left - r.width/2) * 0.45;
+    const dy = (e.clientY - r.top  - r.height/2) * 0.45;
+    mBtn.style.transform = `translate(${dx}px,${dy}px)`;
+    mBtn.style.transition = 'transform 0.15s ease';
+  });
+  mWrap.addEventListener('mouseleave', () => {
+    mBtn.style.transform = 'translate(0,0)';
+    mBtn.style.transition = 'transform 0.5s cubic-bezier(0.23,1,0.32,1)';
+  });
+
+  // ── PARTICLES ──
+  const container = document.getElementById('particles');
+  const pColors = ['rgba(0,100,255,0.7)','rgba(0,140,255,0.5)','rgba(255,100,0,0.6)','rgba(255,140,40,0.4)','rgba(180,100,255,0.4)'];
+  function spawnParticle() {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random()*4+1.5;
+    const left = 45+Math.random()*40, top = 10+Math.random()*75;
+    const dur = 3+Math.random()*5, delay = Math.random()*3;
+    const color = pColors[Math.floor(Math.random()*pColors.length)];
+    p.style.cssText = `width:${size}px;height:${size}px;left:${left}%;top:${top}%;background:${color};box-shadow:0 0 ${size*3}px ${color};animation-duration:${dur}s;animation-delay:${delay}s;`;
+    container.appendChild(p);
+    setTimeout(() => p.remove(), (dur+delay)*1000);
+  }
+  setInterval(spawnParticle, 320);
+  for (let i = 0; i < 12; i++) spawnParticle();
+
+  // ── PROJECT GRID + LIGHTBOX ──
+  const allProjects = [
+    { type:'vector', name:'Reindeer × Moon',          tags:['Silhouette','Landscape','Monochrome'], img:'Randeer_X_moon.png' },
+    { type:'vector', name:'Geometric Dog',             tags:['Geometric','Cubism','Animal'],         img:'Dog.png' },
+    { type:'vector', name:'The Lighthouse',            tags:['Landscape','Architecture','Flat'],      img:'Light_House.png' },
+    { type:'vector', name:'Gallery View',              tags:['Interior','Santorini','Flat Art'],     img:'Gallery_View.png' },
+    { type:'vector', name:'German Shepherd Cubist',    tags:['Cubism','Portrait','Bold Color'],      img:'German_Shephard.png' },
+    { type:'poster', name:'BMW M3 G80',                tags:['Automobile','Dark','Editorial'],       img:'BMW_M3_G80.png' },
+    { type:'poster', name:'BMW M4 Competition',        tags:['Automobile','Yellow','Performance'],   img:'BMW_M4.png' },
+    { type:'poster', name:'Mercedes-AMG GT Black',     tags:['Automobile','Red','Luxury'],           img:'Mercedes_AMG_GT-_Black_Series.png' },
+    { type:'poster', name:'Porsche 911',               tags:['Automobile','Night','Cinematic'],      img:'Porsche_poster.png' },
+    { type:'poster', name:'JBL Headphones',            tags:['Product','Audio','Teal'],              img:'JBL_Headphones.png' },
+    { type:'poster', name:'Fossil Gen 5 Watch',        tags:['Product','Luxury','UI Design'],        img:'Fossil_gen_watch.png' },
+    { type:'poster', name:'Nike Air Force',            tags:['Footwear','Fashion','Sport'],          img:'Nike_Shoe.png' },
+    { type:'poster', name:'Timeless Elegance Perfume', tags:['Luxury','Fragrance','Minimal'],        img:'Perfume.png' },
+    { type:'poster', name:'Hoodie Drop',               tags:['Fashion','Streetwear','Dark'],         img:'Hoodie.png' },
+    { type:'poster', name:'Polo Sweatshirt',           tags:['Fashion','Apparel','Clean'],           img:'Polo_T-shirt.png' },
+    { type:'poster', name:'Global Travel',             tags:['Travel','Tourism','Commercial'],       img:'GLoble_travel.png' },
+    { type:'poster', name:'Interior Designer',         tags:['Real Estate','Interior','Lifestyle'],  img:'Interior_Designer.png' },
+    { type:'poster', name:'Modern House for Sale',     tags:['Real Estate','Architecture','Bold'],   img:'Modern_House_for_sale.png' },
+    { type:'poster', name:'Designer Poster',           tags:['Self-Promo','Typography','Bold'],      img:'Creative_post.png' },
+  ];
+
+  let activeFilter   = 'all';
+  let filteredItems  = [...allProjects];
+  let lbIndex        = 0;
+
+  const grid      = document.getElementById('projGrid');
+  const countEl   = document.getElementById('projCount');
+  const lightbox  = document.getElementById('lightbox');
+
+  function buildGrid() {
+    filteredItems = activeFilter === 'all'
+      ? allProjects
+      : allProjects.filter(p => p.type === activeFilter);
+
+    countEl.innerHTML = `<span>${filteredItems.length}</span> project${filteredItems.length !== 1 ? 's' : ''}`;
+    grid.innerHTML = '';
+
+    filteredItems.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = `proj-card ${p.type === 'vector' ? 'is-vector' : 'is-poster'}`;
+
+      card.innerHTML = `
+        <div class="proj-card-thumb">
+          <img src="${p.img}" alt="${p.name}" loading="lazy"
+            onerror="this.style.opacity='0.3';this.style.filter='grayscale(1)'" />
+          <div class="proj-card-overlay">
+            <div class="proj-card-overlay-inner">
+              <div class="proj-overlay-eye">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="proj-card-footer">
+          <div class="proj-card-name">${p.name}</div>
+          <div class="proj-card-meta">
+            <div class="proj-card-cat ${p.type === 'vector' ? 'is-vector' : 'is-poster'}">
+              ${p.type === 'vector' ? '🔷 Vector · Figma' : '🟠 Poster · Photoshop'}
+            </div>
+            <div class="proj-card-tags">
+              ${p.tags.slice(0,2).map(t => `<span class="proj-card-tag">${t}</span>`).join('')}
+            </div>
+          </div>
+        </div>`;
+
+      // staggered flip-in animation
+      card.style.animationDelay = `${i * 55}ms`;
+      card.classList.add('animating');
+      card.addEventListener('animationend', () => card.classList.remove('animating'), { once: true });
+
+      card.addEventListener('click', () => openLightbox(i));
+      grid.appendChild(card);
+    });
+  }
+
+  function projFilter(type, btn) {
+    document.querySelectorAll('.proj-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = type;
+    buildGrid();
+  }
+
+  // ── LIGHTBOX ──
+  let lbMode = 'view';
+
+  // Short descriptions for projects WITHOUT a full breakdown
+  const descriptions = {
+    'Reindeer × Moon':          'A powerful monochrome silhouette vector created from a late-night imagination session on the terrace. A majestic reindeer with twelve antlers stands on a mountain peak, with six layers of progressively lighter gray mountains fading into the distance and a glowing full moon rising perfectly between the antlers. Every element is a flat vector shape — no photos, no textures, pure Figma craft.',
+    'Geometric Dog':            'A bold cubist-style vector portrait of a thin dog built entirely from sharp geometric shapes — no curves, no gradients, no fur. Using only four colors (black, red, cream and dark gray), this piece proves that strict limitations force the most creative solutions. The asymmetric left eye with a red ring makes it feel alive rather than mechanical. Created completely in Figma.',
+    'The Lighthouse':           'A flat-design vector inspired by a real beach visit where the idea of a lighthouse was imagined on the horizon. The composition shows a red-and-white striped lighthouse with atmospheric beacon glow radiating outward, seabirds in flight, and dark volcanic rocks at the base protecting the tower from crashing waves. Every color in this piece came from personal imagination — no AI palette tools were used.',
+    'Gallery View':             'One of the most ambitious vector artworks in this portfolio — a Santorini-inspired Mediterranean scene viewed through a pair of open arched windows. It took five full days to complete, with the dome shading being the most technically challenging element. The piece captures sea, mountains, sky, sailboat, cypress trees and white-washed architecture all in a single frame. AI was used to assist with the complex color palette.',
+    'German Shepherd Cubist':   'A cubist portrait of a German Shepherd inspired by a real dog observed at a friend\'s house — sitting quietly and dignified at lunchtime. Building on the Geometric Dog, this piece pushes further by introducing seven colors, gradient transitions between geometric planes, and a textured kraft-paper background. The result feels sculptural and alive — the most technically advanced vector in this collection.',
+    'BMW M3 G80':               'An editorial automotive poster for the BMW M3 G80 — spotted in real life on Apollo Street in Indore. The composition uses three simultaneous views of the car: a turning tire in the background, the rear of the car visible through a clipping mask inside the giant M3 letterforms, and the front-side profile as the hero. M-Sport red accents and obsidian black create maximum aggression and premium feel.',
+    'BMW M4 Competition':       'A high-impact poster for the BMW M4 Competition in Sao Paulo Yellow, designed after seeing the car in BMW showrooms in both Indore and Gujarat. The layout features low-opacity background M4 typography, an elegant script signature overlay, a realistic floor reflection, and three detail insets: the tire, the interior, and the rear with taillights. Deliberately uses softer fonts than the M3 to give each poster its own personality.',
+    'Mercedes-AMG GT Black':    'One of the first automotive posters in this collection and a personal favorite. The AMG GT Black Series caught attention for its impossibly long bonnet and track-bred aerodynamics — uncommon in Mercedes\'s SUV-heavy lineup. The poster places the crimson side profile as the hero, flanked by desaturated front and rear views that act as walls in a 3D room illusion. Shadow work gives the car genuine physical presence.',
+    'Porsche 911':              'A fully imaginative poster created without any AI assistance or social media reference — the concept came entirely from within. A Porsche 911 RWB in vibrant red is set against a rain-soaked neon Tokyo cityscape with cyan and amber bokeh. The signature design element is the vertical handwritten PORSCHE typography acting as a white decorative pillar, and white rectangular frame-in-frame collage boxes adding cinematic depth.',
+    'JBL Headphones':           'A lifestyle product poster born from personal dissatisfaction with JBL\'s official color choices. After imagining what mixing green and blue would produce, a deep petrol teal emerged — and the result far exceeded expectations. The headphones physically overlap the word LISTEN in the typography, a floating Spotify UI card adds music context, and the entire palette stays within a single teal family for perfect visual harmony.',
+    'Fossil Gen 5 Watch':       'A luxury product poster that solves a gap in the watch advertising market — no brand was showing their watch as if physically emerging from its box in 3D space. Shadow is applied where the watch meets the background, making it appear to float outward. The Fossil and Gen 5 titles use a solid-versus-outline font technique to add visual interest without adding weight. The layout feels like a premium e-commerce product page.',
+    'Nike Air Force':           'One of the first posters in this portfolio, created with zero AI assistance and zero external reference — entirely from personal imagination while looking at a pair of sneakers. The design keeps intentional white space on the canvas, uses a clean blue-and-white split layout, and places the shoe as the undisputed hero. Simple, confident and clean — sometimes less is more.',
+    'Timeless Elegance Perfume':'A luxury perfume poster built around one powerful idea: making the bottle feel physically present rather than just displayed on screen. The word TIMELESS ELEGANCE is scaled so massively it bleeds off all four edges, transforming typography into an architectural backdrop. The perfume bottle is cut out as a PNG and layered between background and foreground elements — giving it a floating, almost magical physical presence.',
+    'Hoodie Drop':              'A streetwear product poster born from a casual moment — hanging a newly purchased hoodie on a hanger and noticing how the hood and sleeves fell into a naturally cute, human-like pose. What sets this poster apart from every other fashion post is its blueprint grid-line background — a deliberate choice to stand out from the plain backgrounds everyone else uses. The sand-beige hoodie color matches the background text, unifying product and typography.',
+    'Polo Sweatshirt':          'A premium flat-lay lifestyle poster that solves a real observation: most fashion marketing shows only one item at a time. This poster shows a complete curated outfit — the deep forest green polo sweatshirt at center, surrounded by a matching cap, clean minimalist sneakers, and white wireless headphones. Photographed from a top-down view as if laid on a table, the obsidian background isolates every item like a luxury artifact.',
+    'Global Travel':            'A travel agency poster built on a deeply personal dream — to fly in an airplane at least once in a lifetime. The central metaphor is turning the pages of a book called life, where travel reveals what lies beneath the ordinary. The visual technique is a page-peel reveal: the clean white minimalist top half literally curls back like a book page to expose a vibrant cinematic world of cruise ships, skyscrapers and deep blue ocean below.',
+    'Interior Designer':        'A marketing poster designed as an exercise in thinking like a real commercial client — what would an interior design firm need to grow their business? The answer: something different from the flat, plain layouts on social media. This poster uses a blurred background image with white overlay, rounded stadium-shaped capsule frames for the room photos, and a sophisticated deep plum brand palette that immediately reads as premium and architectural.',
+    'Modern House for Sale':    'A real estate poster that adds genuine 3D depth to a category known for flat, simple layouts. The central innovation is pen-tool shaped image frames that overlap like a cascading deck of cards — each photo slightly over the next, creating physical layering. A bold diagonal purple slash cuts across the white canvas creating urgency, while the hybrid script-and-bold title balances warmth with structural authority.',
+    'Designer Poster':          'A self-promotional typographic poster that answers one question: how does a graphic designer prove they are a designer without showing a portfolio? By making the design itself the proof. The word DESIGNER is stacked across three massive rows with two realistic stylus pens weaving physically between the letterforms in 3D space. A Figma-style toolbar on the left edge serves as a quiet identity marker — I use these tools every day.',
+  };
+
+  const projectData = {
+    'Reindeer × Moon': {
+      inspiration: 'Late at night on my terrace, I was looking at a cloudy sky and imagining a reindeer standing right there — not a Christmas reindeer, but a unique one with twelve antlers, standing tall on a mountain peak with two hills behind him and a beautiful full moon rising perfectly between his antlers. I added my vector skills, imagination, and used AI to find the right color palette. The outcome is something I am really proud of.',
+      palette: [
+        { hex:'#000000', name:'Silhouette & Foreground — Pure Black' },
+        { hex:'#EBEBEB', name:'Full Moon — Off-White' },
+        { hex:'#5F5F5F', name:'Sky / Upper BG — Medium-Dark Gray' },
+        { hex:'#434343', name:'Mountain Layer 1 — Charcoal Gray' },
+        { hex:'#545454', name:'Mountain Layer 2 — Slate Gray' },
+        { hex:'#6B6B6B', name:'Mountain Layer 3 — Medium Gray' },
+        { hex:'#848484', name:'Mountain Layer 4 — Muted Gray' },
+        { hex:'#A0A0A0', name:'Mountain Layer 5 — Light-Medium Gray' },
+        { hex:'#D1D1D1', name:'Mountain Layer 6 — Light Gray' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Composition', text:'Reindeer silhouette centered against the moon — the antlers frame the moon like a crown, creating an unforgettable focal point.' },
+        { color:'orange', title:'Monochrome Palette', text:'6 shades of gray create atmospheric depth and distance — darker in front, lighter toward the horizon. No color needed.' },
+        { color:'blue',   title:'Layering', text:'Each mountain layer is a separate flat shape — stacking them gives the illusion of 3D depth using only 2D tools in Figma.' },
+      ],
+      annotations: [
+        { box:{ top:2,  left:25, w:50, h:45 }, color:'white',  callout:{ top:-5, left:55 }, title:'Moon',       text:'Off-white circle placed perfectly between antlers — creates the focal crown effect.' },
+        { box:{ top:5,  left:28, w:44, h:88 }, color:'blue',   callout:{ top:0,  left:-150 }, title:'Silhouette', text:'Pure black shape — zero detail. The absence of detail is the design.' },
+        { box:{ top:55, left:0,  w:100,h:40 }, color:'orange', callout:{ top:60, left:2 },  title:'Depth Layers',text:'6 stacked mountain shapes, each a slightly lighter gray.' },
+      ],
+    },
+    'Geometric Dog': {
+      inspiration: 'I was sitting alone in a dark room with just my imagination. I started thinking — what if a dog was not made of fur and muscles, but of pure geometric shapes? Flat, clean, mathematical. No gradients, no animation, just bold shapes and plain colors. I used AI tools to help me figure out the color palette and how the shapes should flow together, then built everything in Figma.',
+      palette: [
+        { hex:'#3C4E52', name:'Background — Dark Slate Teal-Gray' },
+        { hex:'#FF0000', name:'Vibrant Accent — Pure Red' },
+        { hex:'#B70000', name:'Shadowed Red — Dark Crimson' },
+        { hex:'#F4EFE3', name:'Light Base — Warm Cream Off-White' },
+        { hex:'#000000', name:'Pure Shadows — Pure Black' },
+        { hex:'#262626', name:'Mid-Tone Gray — Charcoal Black' },
+        { hex:'#5D6468', name:'Muted Shadow — Medium Stone Gray' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Shape Language', text:'Every part of the dog — ears, eyes, snout, body — is a flat geometric polygon. No curves, no softness. Pure mathematics.' },
+        { color:'orange', title:'4-Color Palette', text:'Only 4 main colors: black, red, cream and gray. Strict palette limitation forces creativity in shape design.' },
+        { color:'blue',   title:'Asymmetry', text:'The left eye has a red ring, the right does not. Intentional asymmetry makes it feel alive and unique, not robotic.' },
+      ],
+      annotations: [
+        { box:{ top:5,  left:35, w:50, h:45 }, color:'blue',   callout:{ top:0,  left:55 }, title:'Eye Design',  text:'Left eye has red ring accent — asymmetry makes it unique and striking.' },
+        { box:{ top:40, left:25, w:40, h:40 }, color:'orange', callout:{ top:50, left:-140}, title:'Red Accent',  text:'Pure red used on ear, chest and nose — creates vibrant focal points.' },
+        { box:{ top:5,  left:5,  w:90, h:88 }, color:'white',  callout:{ top:2,  left:2 },  title:'Flat Geometry', text:'Zero gradients, zero curves — every shape is a flat polygon.' },
+      ],
+    },
+    'The Lighthouse': {
+      inspiration: 'I visited a beach — I had never seen a lighthouse in real life before. Standing there at sunset, I imagined a lighthouse right there on that ocean — its light beaming outward toward a ship, birds flying around it, ocean waves crashing on the rocks below, the rocks protecting the tower. I looked carefully at the detail of the safety rails on the top. Then I opened the light and focused on the beautiful gradients radiating from it. I used my own color imagination for this one — no AI for the palette.',
+      palette: [
+        { hex:'#1C535C', name:'Sky & Ocean — Deep Teal Marine Blue' },
+        { hex:'#D3362A', name:'Tower Lit Side — Terracotta Brick Red' },
+        { hex:'#922320', name:'Tower Shadow — Dark Burgundy' },
+        { hex:'#FDFDFD', name:'White Stripe Lit — Pure White' },
+        { hex:'#CCCCCC', name:'White Stripe Shadow — Muted Gray' },
+        { hex:'#FCECD5', name:'Beacon Glow Center — Soft Warm Ivory' },
+        { hex:'#D4CAB3', name:'Glow Ring — Muted Khaki' },
+        { hex:'#4F353E', name:'Rocky Base Lit — Dark Mauve' },
+        { hex:'#241620', name:'Rocky Base Shadow — Dark Violet-Black' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Own Color Imagination', text:'Unlike my other vectors, I used no AI for this palette. Every color came from my memory of watching that sunset at the beach.' },
+        { color:'orange', title:'Light Gradient', text:'Two glow rings (warm ivory + khaki) radiate from the beacon — this soft gradient is the emotional heart of the whole piece.' },
+        { color:'blue',   title:'Rocks as Protection', text:'The dark rocks at the base are not just background — they frame the tower and feel like they are defending it from the waves.' },
+      ],
+      annotations: [
+        { box:{ top:2,  left:25, w:50, h:30 }, color:'orange', callout:{ top:0,  left:55 }, title:'Beacon Glow',  text:'Two warm glow rings radiating from the light — the emotional center of the piece.' },
+        { box:{ top:30, left:30, w:40, h:50 }, color:'blue',   callout:{ top:35, left:-140}, title:'Tower Detail', text:'Light vs shadow side on red and white stripes — gives 3D depth to a flat shape.' },
+        { box:{ top:72, left:5,  w:90, h:25 }, color:'white',  callout:{ top:75, left:2 },  title:'Rock Base',    text:'Dark rocks frame and protect the tower — compositional anchor.' },
+      ],
+    },
+    'Gallery View': {
+      inspiration: 'I visited a place where I could see mountains, ocean, a beautiful sky with sun, and buildings all in one view. I thought — what if I could capture all of that in one vector illustration? I added my imagination but finding the right colors was the most difficult part of this piece. The dome shading alone required deep imagination. I used AI to find the color palette. After many difficulties I finally made it — and it came out much better than what I had imagined. My efforts were worth it.',
+      palette: [
+        { hex:'#1A354B', name:'Window Frames & Domes — Deep Navy Blue' },
+        { hex:'#037295', name:'Sea Water — Vibrant Teal Ocean Blue' },
+        { hex:'#4EA3A1', name:'Sky — Muted Turquoise Seafoam' },
+        { hex:'#F5F4F0', name:'Buildings — Warm Ivory Off-White' },
+        { hex:'#EADCC9', name:'Wall Shadows — Soft Sand Beige' },
+        { hex:'#C27A52', name:'Distant Mountains — Terracotta Clay' },
+        { hex:'#2D8259', name:'Foliage — Deep Emerald Green' },
+        { hex:'#D4BFAB', name:'Foreground Floor — Light Tan Desert Sand' },
+        { hex:'#FFFFFF', name:'Sun & Sailboat — Pure White' },
+      ],
+      decisions: [
+        { color:'blue',   title:'One View, Everything', text:'The arched window acts as a frame within a frame — it focuses the viewer and lets me show sea, sky, mountains and buildings at once.' },
+        { color:'orange', title:'Dome Shading', text:'The hardest part of this piece. I added subtle color variation and shadow on the dome using deep imagination and AI color guidance.' },
+        { color:'blue',   title:'5-Day Process', text:'This took 5 days to complete. The layering of buildings, water, mountains and sky required careful depth management throughout.' },
+      ],
+      annotations: [
+        { box:{ top:2,  left:2,  w:18, h:94 }, color:'blue',   callout:{ top:2, left:20 },  title:'Window Frame', text:'Dark navy arch frames the whole scene — creates depth and focus.' },
+        { box:{ top:5,  left:22, w:55, h:50 }, color:'white',  callout:{ top:0, left:55 },  title:'Sky & Sun',    text:'Turquoise sky with pure white sun — serene and Mediterranean.' },
+        { box:{ top:30, left:18, w:60, h:45 }, color:'orange', callout:{ top:55, left:18 }, title:'Architecture', text:'Layered ivory buildings with dome shading — the most detailed part of this piece.' },
+      ],
+    },
+    'German Shepherd Cubist': {
+      inspiration: 'I went to my friend\'s house and there I saw a beautiful German Shepherd in real life. I love dogs, so we were playing with him. After some time he sat very quietly — his friend told me it was his lunchtime. At that moment I observed how he sat so still, so dignified. I was inspired by my previous Geometric Dog vector and wanted to push further. This time I added gradients, shadows and more colors to give real depth and dimension. I used AI tools specifically for the color palette.',
+      palette: [
+        { hex:'#D7CDA9', name:'Background Texture — Kraft Paper Pale Gold' },
+        { hex:'#C92113', name:'Vibrant Red — Cadmium Red' },
+        { hex:'#DF9417', name:'Mustard Yellow — Ochre Dark Mustard' },
+        { hex:'#04141C', name:'Deep Base Shadow — Near-Black Blue' },
+        { hex:'#0E4F57', name:'Muted Teal — Deep Teal Green' },
+        { hex:'#163246', name:'Mid-Tone Blue — Classic Indigo' },
+        { hex:'#E7DEC4', name:'Light Accent — Creamy Beige' },
+      ],
+      decisions: [
+        { color:'blue',   title:'More Than 4 Colors', text:'Unlike the Geometric Dog, this piece uses 7 colors including gradients. More colors = more depth, more emotion, more realism.' },
+        { color:'orange', title:'Textured Background', text:'Kraft paper gold texture background gives the piece an artisan, handcrafted quality — like a print on aged paper.' },
+        { color:'blue',   title:'Gradient Shadows', text:'Each geometric plane has a subtle gradient from light to shadow. This is what separates it from flat vector — it feels sculptural.' },
+      ],
+      annotations: [
+        { box:{ top:5,  left:20, w:60, h:55 }, color:'blue',   callout:{ top:0, left:62 },   title:'Face Geometry', text:'Intersecting geometric planes create the face — each plane is a different color showing a different angle.' },
+        { box:{ top:5,  left:60, w:35, h:25 }, color:'orange', callout:{ top:0, left:-140 },  title:'Ear Accent',    text:'Mustard yellow ear tip — the warmest color in the palette, draws the eye upward.' },
+        { box:{ top:55, left:10, w:80, h:40 }, color:'white',  callout:{ top:70, left:10 },   title:'Gradient Depth', text:'Gradients in body panels give 3D depth — the main upgrade over the flat Geometric Dog.' },
+      ],
+    },
+
+    'BMW M3 G80': {
+      inspiration: 'I was roaming on Apollo Street in Indore and I saw this beauty — the BMW M3 G80 — passing by. I immediately researched its speed, engine, performance, luxury and dominance. I took inspiration from other car posters but made it different. I added three layers: the turning tire, the back view of the car inside the M3 text as a clipping mask, and the front-side combination view of the car facing right.',
+      palette: [
+        { hex:'#E31A1A', name:'Primary Accent — Vibrant M-Sport Red' },
+        { hex:'#0D0F12', name:'Car Body & Road — Deep Obsidian Black' },
+        { hex:'#5C646E', name:'Metallic Highlights & Sky — Gunmetal Gray' },
+        { hex:'#FFFFFF', name:'Body Text & Lines — Pure White' },
+        { hex:'#9DA3A6', name:'Muted Background Text — Cool Silver Gray' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Clipping Mask Typography', text:'The giant M3 letterforms act as a clipping mask showing the rear of the car inside the text — photography and typography become one.' },
+        { color:'orange', title:'Three-Layer Composition', text:'Tire, masked text, and front-side car view — three angles of the same car creates a complete story in one poster.' },
+        { color:'blue',   title:'Extended Automotive Font', text:'Wide square sans-serif for the BMW M3 G80 title mimics the low wide stance of a sports car — industrial, modern, structural.' },
+      ],
+      annotations: [
+        { box:{ top:2,  left:5,  w:55, h:55 }, color:'blue',   callout:{ top:0,  left:57 }, title:'M3 Mask Text',  text:'Car rear view clipped inside giant letterforms — photo + type merged.' },
+        { box:{ top:2,  left:0,  w:30, h:55 }, color:'white',  callout:{ top:0,  left:-145 }, title:'Tire Layer', text:'Turning tire in background — layer 1 of 3 in the composition.' },
+        { box:{ top:56, left:2,  w:96, h:40 }, color:'orange', callout:{ top:60, left:2 }, title:'Spec Bar',      text:'Engine, Power, Speed — red accent makes metrics the emotional hook.' },
+      ],
+    },
+
+    'BMW M4 Competition': {
+      inspiration: 'I saw this car in a BMW showroom in Gujarat and in Indore. The yellow shiny color with beautiful tires and interior design made it completely different from every car in the crowd. I decided to make something attractive but not sporty — since I already used aggressive fonts in the M3. So I used low-opacity M4 text in the back, a designer script M4 overlay, a glow behind the car, a floor reflection, and three key views: tire, interior, and back with taillights.',
+      palette: [
+        { hex:'#E1B004', name:'Hero Accent — BMW Speed Yellow' },
+        { hex:'#08090B', name:'Background — Deep Charcoal Black' },
+        { hex:'#453A16', name:'Floor Reflection — Muted Olive Gold' },
+        { hex:'#FFFFFF', name:'Typography & Icons — Pure White' },
+      ],
+      decisions: [
+        { color:'orange', title:'Low Opacity Background Text', text:'Giant M4 text placed behind the car at low opacity acts as a structural graphic element — anchors the layout without competing with the car.' },
+        { color:'blue',   title:'Script Signature Overlay', text:'A casual script M4 overlaid on the blocky text adds elegance and exclusivity — like a designer\'s personal mark on a blueprint.' },
+        { color:'orange', title:'Floor Reflection', text:'Realistic floor reflection grounds the car physically — makes a flat poster feel like a studio photograph.' },
+      ],
+      annotations: [
+        { box:{ top:2,  left:2,  w:55, h:60 }, color:'orange', callout:{ top:0, left:57 }, title:'Background M4', text:'Low-opacity giant text behind car — structural anchor, not decoration.' },
+        { box:{ top:2,  left:62, w:35, h:68 }, color:'blue',   callout:{ top:0, left:-145 }, title:'Detail Insets', text:'Tire, interior, and taillight — three angles tell the full car story.' },
+        { box:{ top:68, left:2,  w:96, h:28 }, color:'white',  callout:{ top:72, left:2 }, title:'Spec + Reflection', text:'Floor reflection + performance stats — realism meets data.' },
+      ],
+    },
+
+    'Mercedes-AMG GT Black': {
+      inspiration: 'I was exploring social media looking at supercars — Audi R8, BMW M4, M5 — and I thought: what does Mercedes have that is truly a sports car? Then I found this beauty. What I loved most was its side view — the impossibly long bonnet and beautiful aerodynamics. I decided to reveal that side view as the hero. I gave it a 3D room effect: the main red car in the center, the front view on the left wall, the back view on the right wall, with shadows making it feel like the car is physically standing in a real room.',
+      palette: [
+        { hex:'#A71118', name:'Primary Accent — Crimson Racing Red' },
+        { hex:'#7C1015', name:'Title Shadow — Deep Dark Red' },
+        { hex:'#353434', name:'Background Flanking Cars — Graphite Gray' },
+        { hex:'#1A191D', name:'Bottom Dashboard Block — Matte Obsidian' },
+        { hex:'#FFFFFF', name:'Metrics Typography — Pure White' },
+      ],
+      decisions: [
+        { color:'orange', title:'3D Room Effect', text:'Front view left, back view right, side view center — desaturated flanking images act as walls, creating the illusion that the car stands in a real room.' },
+        { color:'blue',   title:'Extended vs Condensed Contrast', text:'Wide Eurostile for MERCEDES-AMG vs tall condensed for BLACK SERIES — typographic contrast prevents the title from looking monotonous.' },
+        { color:'orange', title:'Light Weight Large Numbers', text:'Massive performance numbers in thin light-weight font — premium data visualization trick that feels sophisticated rather than bulky.' },
+      ],
+      annotations: [
+        { box:{ top:5,  left:22, w:56, h:75 }, color:'orange', callout:{ top:2,  left:57 }, title:'Hero Side View', text:'Long bonnet aerodynamics — the most beautiful angle of this car.' },
+        { box:{ top:5,  left:2,  w:19, h:60 }, color:'blue',   callout:{ top:2,  left:-145 }, title:'Front Wall',  text:'Desaturated front view acts as a left wall in the 3D room illusion.' },
+        { box:{ top:60, left:2,  w:96, h:35 }, color:'white',  callout:{ top:65, left:2 }, title:'Stats Dashboard', text:'720HP · 325KM/H · 3.2s — thin large numbers feel premium and precise.' },
+      ],
+    },
+
+    'Porsche 911': {
+      inspiration: 'This poster is completely from my imagination — no AI, no social media inspiration. I imagined a light-filled city in the background with beautiful bokeh blur, and the Porsche 911 RWB in vibrant red showing its side and back view with light shining on it. The unique design element is the typography coming out of two white rectangular boxes in a 3D frame-in-frame collage view. I struggled a lot with the typography for this one.',
+      palette: [
+        { hex:'#E63312', name:'Hero Car Paint — Vibrant Crimson Red' },
+        { hex:'#0B0C0E', name:'Deep Shadows — Midnight Black' },
+        { hex:'#00A3A8', name:'City Background — Cyberpunk Cyan Teal' },
+        { hex:'#D49520', name:'Bokeh Warmth — Amber Neon Gold' },
+        { hex:'#FFFFFF', name:'Frames & Text — Pure White' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Frame-in-Frame Collage', text:'White rectangular frames around secondary image crops add massive depth — shows complex layering and mixed visual textures without clutter.' },
+        { color:'orange', title:'Vertical Script Typography', text:'Elegant thin handwritten PORSCHE text running vertically acts as a decorative white pillar — guides eyes top to bottom through the canvas.' },
+        { color:'blue',   title:'Complementary Color Contrast', text:'Red-orange car against cyan-teal city background — warm vs cool complementary colors create a naturally cinematic tension.' },
+      ],
+      annotations: [
+        { box:{ top:2,  left:35, w:28, h:95 }, color:'white',  callout:{ top:2,  left:64 }, title:'Vertical Text', text:'Script PORSCHE runs top to bottom — decorative pillar guiding the eye.' },
+        { box:{ top:38, left:18, w:57, h:40 }, color:'orange', callout:{ top:55, left:18 }, title:'Inset Frame',   text:'Polaroid-style white frame around front car view — frame within a frame.' },
+        { box:{ top:2,  left:2,  w:96, h:38 }, color:'blue',   callout:{ top:2,  left:2 }, title:'Bokeh City BG', text:'Cyan + amber neon bokeh — cyberpunk city feel behind the red car.' },
+      ],
+    },
+
+    'JBL Headphones': {
+      inspiration: 'I was using my own JBL headphones — pure white ones that I love. But when I explored social media I found that no JBL color I saw matched the vibe of music to me. I imagined what color would come from mixing green and blue. The result was a deep teal that was far better than anything I had imagined. The outcome completely surprised me — it felt like the headphones were built for this exact color all along.',
+      palette: [
+        { hex:'#135354', name:'Headphones & Logo — Deep Teal Petrol Blue' },
+        { hex:'#91AFB3', name:'Gradient Backdrop — Muted Sage Sky' },
+        { hex:'#4B7B7F', name:'Typography Layer — Medium Teal' },
+        { hex:'#FFFFFF', name:'UI Text — Pure White' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Product Overlapping Text', text:'The headphones overlap the word LISTEN — the product physically frames itself within the statement, creating a seamless product-in-typography moment.' },
+        { color:'orange', title:'Spotify UI Element', text:'A real-looking Spotify music card floating near the headphones adds lifestyle context — you don\'t just see headphones, you feel the music experience.' },
+        { color:'blue',   title:'Monochromatic Teal Palette', text:'Single-hue teal palette — headphones, background, text all in the same family. This creates harmony and makes the white specs pop cleanly.' },
+      ],
+      annotations: [
+        { box:{ top:5,  left:12, w:72, h:62 }, color:'blue',   callout:{ top:2,  left:57 }, title:'Product',      text:'Teal headphones overlapping LISTEN text — product and type are one.' },
+        { box:{ top:16, left:2,  w:57, h:20 }, color:'white',  callout:{ top:14, left:-145 }, title:'Spotify Card', text:'Authentic music player UI — sells the listening experience not just the product.' },
+        { box:{ top:78, left:4,  w:92, h:16 }, color:'orange', callout:{ top:80, left:4 }, title:'Spec Icons',    text:'40 Hours · Built-in Mic · 20Hz-40Hz — clean icons at a glance.' },
+      ],
+    },
+
+    'Fossil Gen 5 Watch': {
+      inspiration: 'I was searching for watches and noticed that no brand was making a poster that gave a 3D look while showcasing the watch as if it were coming out of its box — like a real unboxing moment. I wanted the watch to feel physically present. I added shadow on the top and bottom where the color fades to match the background, giving it a floating-out-of-the-box depth. The open box concept with the name displayed was my unique contribution.',
+      palette: [
+        { hex:'#1F1310', name:'Main Background — Deep Espresso Brown' },
+        { hex:'#DFBA73', name:'Watch Body — Champagne Gold' },
+        { hex:'#A6876D', name:'Border Frame — Muted Taupe' },
+        { hex:'#FFFFFF', name:'Headers & Text — Pure White' },
+      ],
+      decisions: [
+        { color:'orange', title:'Solid vs Outline Font Mix', text:'Fossil in solid heavy font, Gen 5 in outline stroke font — mixing filled and outline weights prevents the massive text from looking too heavy.' },
+        { color:'blue',   title:'3D Shadow Illusion', text:'Shadow added where color fades to match the background — tricks the eye into believing the watch is physically emerging from the dark surface.' },
+        { color:'orange', title:'UI Interface Typography', text:'Clean Inter/SF Pro for price and Add to Cart — makes the poster feel like a premium e-commerce product page, not just a graphic.' },
+      ],
+      annotations: [
+        { box:{ top:8,  left:30, w:45, h:68 }, color:'orange', callout:{ top:5,  left:57 }, title:'Watch Hero',   text:'Champagne gold watch — the star. Everything else exists to frame this.' },
+        { box:{ top:2,  left:5,  w:55, h:30 }, color:'blue',   callout:{ top:0,  left:-145 }, title:'Fossil / Gen 5', text:'Solid + outline font mix — adds visual interest without weight.' },
+        { box:{ top:70, left:5,  w:90, h:25 }, color:'white',  callout:{ top:72, left:5 }, title:'3D Base Shadow', text:'Fading shadow where poster meets product — creates floating 3D illusion.' },
+      ],
+    },
+
+    'Nike Air Force': {
+      inspiration: 'I was looking at my own sneakers and thought — what if I made a poster of this? I decided to keep it simple. No complexity, no clutter. I kept white space intentionally, used a clean split layout, and made every decision on my own without any AI or color palette tool. This is one of my first posters made completely from imagination and personal judgment.',
+      palette: [
+        { hex:'#04509B', name:'Swoosh & Panel — Royal Athletic Blue' },
+        { hex:'#E1DFD8', name:'Main Canvas — Cool Putty Off-White' },
+        { hex:'#0B1B2B', name:'Callout Boxes & Footer — Deep Navy Shadow' },
+        { hex:'#FFFFFF', name:'Shoe & Base Text — Pure White' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Intentional White Space', text:'Most designers fill every corner. I kept white space deliberately — it makes the shoe feel premium, like a luxury product in a clean studio.' },
+        { color:'orange', title:'Split Layout', text:'Blue panel on the right with size and CTA, white canvas on the left with the shoe — two zones, one for product, one for action.' },
+        { color:'blue',   title:'Geometric Brand Font', text:'Wide Futura Bold for NIKE — Nike\'s historic geometry. Massive, stable, and authoritative. No decoration needed.' },
+      ],
+      annotations: [
+        { box:{ top:5,  left:2,  w:62, h:85 }, color:'blue',   callout:{ top:2,  left:57 }, title:'Product Canvas', text:'White zone — shoe floats in clean space. Premium and intentional.' },
+        { box:{ top:5,  left:65, w:33, h:85 }, color:'orange', callout:{ top:2,  left:-145 }, title:'Action Panel', text:'Blue panel holds size range and Order Now CTA — clear conversion zone.' },
+        { box:{ top:75, left:2,  w:60, h:20 }, color:'white',  callout:{ top:78, left:2 }, title:'Just Do It',    text:'Nike\'s legendary tagline at the bottom — no explanation needed.' },
+      ],
+    },
+
+    'Timeless Elegance Perfume': {
+      inspiration: 'I was working in Photoshop and holding my own perfume bottle at the same time. I thought — what if the bottle was floating in air, not sitting flat on a surface? Every other perfume brand just places the bottle on screen. I wanted someone to feel like the bottle is physically present, like magic is happening. So I cut the bottle as a PNG, made the massive TIMELESS ELEGANCE text behind it, and let the bottle float through the letters as if it exists in real space.',
+      palette: [
+        { hex:'#BAC1BE', name:'Studio Backdrop — Warm Editorial Gray' },
+        { hex:'#3D2A1F', name:'Massive Background Text — Espresso Charcoal' },
+        { hex:'#EDE8D5', name:'Liquid Glow & Button — Soft Warm Ivory' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Masking Typography Trick', text:'Scaling TIMELESS ELEGANCE so large it bleeds off the edges transforms text into a graphic pattern — the bottle floats over it creating a 3D layering effect.' },
+        { color:'orange', title:'Script vs Heavy Contrast', text:'Delicate calligraphy "live the glam way" overlaying blocky compressed text — this is how luxury fashion houses have always combined type styles.' },
+        { color:'blue',   title:'Physical Presence Illusion', text:'The bottle is cut out as PNG and placed between background text and foreground elements — it physically occupies space on the poster, not just sits on it.' },
+      ],
+      annotations: [
+        { box:{ top:5,  left:15, w:70, h:80 }, color:'blue',   callout:{ top:2,  left:57 }, title:'Floating Bottle', text:'PNG cutout between layers — bottle exists in the poster\'s physical space.' },
+        { box:{ top:2,  left:2,  w:96, h:60 }, color:'white',  callout:{ top:0,  left:2 }, title:'Masking Text',   text:'Giant TIMELESS ELEGANCE bleeds off edges — type becomes graphic pattern.' },
+        { box:{ top:55, left:15, w:70, h:15 }, color:'orange', callout:{ top:58, left:15 }, title:'Luxury Script', text:'"live the glam way" — delicate calligraphy gives haute couture elegance.' },
+      ],
+    },
+
+    'Hoodie Drop': {
+      inspiration: 'I came home from the market after buying a hoodie, wore it, and then hung it on a hanger. I accidentally saw how the cap and the sleeves were sitting — it looked like a cute baby sitting there. That moment became the inspiration. What makes this poster unique is the grid-line background — every other poster uses plain backgrounds. I wanted something extraordinary and eye-catching. The typography also gave me a hard time — I struggled a lot to find the right style.',
+      palette: [
+        { hex:'#241E17', name:'Grid Background — Dark Umber' },
+        { hex:'#DEC6A8', name:'Large Text & Hoodie — Warm Sand Beige' },
+        { hex:'#E3A869', name:'Badges & Buy Now — Muted Orange-Gold' },
+        { hex:'#FFFFFF', name:'Icons & Fine Labels — Pure White' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Grid Line Background', text:'Every other poster uses a plain background. I used a grid-line texture to stand out — it adds structure and gives an architectural, blueprint feel.' },
+        { color:'orange', title:'Hoodie Color Match', text:'The large background HOODIE text matches the exact sand-beige of the actual hoodie — text and product become visually unified.' },
+        { color:'blue',   title:'Script vs Industrial Contrast', text:'"Wear your vibe" in elegant thin script next to blocky industrial HOODIE text — premium contrast that gives the brand a trendy curated personality.' },
+      ],
+      annotations: [
+        { box:{ top:5,  left:18, w:64, h:75 }, color:'orange', callout:{ top:2,  left:57 }, title:'Hero Hoodie',   text:'The product that started it all — hung on a hanger, looking like a cute baby.' },
+        { box:{ top:2,  left:2,  w:96, h:95 }, color:'blue',   callout:{ top:0,  left:2 }, title:'Grid Texture',  text:'Blueprint grid background — extraordinary choice vs plain backgrounds.' },
+        { box:{ top:48, left:62, w:35, h:18 }, color:'white',  callout:{ top:48, left:-145 }, title:'Buy Now Badge', text:'Orange-gold badge — warm accent that draws the eye to the CTA.' },
+      ],
+    },
+
+    'Polo Sweatshirt': {
+      inspiration: 'I was exploring my own wardrobe and realized I never had a proper clothing set. I noticed that most marketing shows only one item — just a shoe, or just a shirt. What if a single poster showed the complete outfit combination? I looked at many websites and social media, then imagined laying everything out as if on a table viewed from the top — the sweatshirt, the cap, the sneakers, the headphones — all together in one flat-lay frame.',
+      palette: [
+        { hex:'#04321A', name:'Sweatshirt & Cap — Deep Forest Green' },
+        { hex:'#0F1110', name:'Background Canvas — Off-Black Obsidian' },
+        { hex:'#EAEAEA', name:'Collar & Text — Light Platinum Gray' },
+        { hex:'#1A2F22', name:'Brush Banner — Muted Moss Green' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Premium Knolling Flat-Lay', text:'All items laid out from a top-down view like luxury magazine editorial — the poster sells a complete lifestyle identity, not just one garment.' },
+        { color:'orange', title:'Luxury Serif + Varsity Mix', text:'High-contrast Bodoni/Didot for ORIGINALS header (old-money luxury) paired with Varsity font on the actual garment — two eras of style in one frame.' },
+        { color:'blue',   title:'Full Outfit Storytelling', text:'Sweatshirt + cap + sneakers + headphones — four items, one poster, one complete identity. No other fashion poster I saw did this.' },
+      ],
+      annotations: [
+        { box:{ top:18, left:22, w:56, h:60 }, color:'orange', callout:{ top:15, left:57 }, title:'Hero Sweatshirt', text:'Forest green polo center stage — deep obsidian background isolates it.' },
+        { box:{ top:2,  left:2,  w:96, h:18 }, color:'blue',   callout:{ top:0,  left:2 }, title:'ORIGINALS Header', text:'High-contrast serif — old-money luxury transforms a shirt into a collectible.' },
+        { box:{ top:75, left:10, w:80, h:20 }, color:'white',  callout:{ top:78, left:10 }, title:'Lifestyle Accessories', text:'Cap, sneakers, headphones — sells the full identity, not just the product.' },
+      ],
+    },
+
+    'Global Travel': {
+      inspiration: 'My dream is to fly an airplane once in my lifetime. I think about traveling as turning the pages of my life — like my life is a book called Global Travel, and every journey turns a new page. Sitting at home and exploring the world through travel is what this poster is about. This was my deepest personal inspiration — it came straight from my heart.',
+      palette: [
+        { hex:'#006792', name:'Main Text — Deep Ocean Blue' },
+        { hex:'#00A9CE', name:'Peeling Corner & Airplane — Vibrant Cyan' },
+        { hex:'#F6F6F4', name:'Background Canvas — Soft Off-White' },
+        { hex:'#022B5C', name:'Foreground Water — Dark Navy Blue' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Page Peel Reveal Effect', text:'The white minimalist top half peels back like a book page to reveal the vibrant cinematic world below — playing on human escapism and travel fantasy.' },
+        { color:'orange', title:'Script Tourism Accent', text:'Brushed script TOURISM next to bold GLOBAL TRAVEL — the script adds vacation energy and softens the corporate rigidity of the main font.' },
+        { color:'blue',   title:'Personal Dream Made Visual', text:'This poster is not just a design exercise — it is my dream of flying visualized. The airplane cutting through the design is my personal symbol of freedom.' },
+      ],
+      annotations: [
+        { box:{ top:2,  left:2,  w:96, h:45 }, color:'blue',   callout:{ top:0,  left:2 }, title:'Clean Top Half',  text:'Minimalist white — the boring routine before the page turns.' },
+        { box:{ top:38, left:2,  w:96, h:58 }, color:'orange', callout:{ top:55, left:2 }, title:'Reveal Below',    text:'Vibrant city + cruise world — what lies beneath the plain surface.' },
+        { box:{ top:20, left:5,  w:30, h:35 }, color:'white',  callout:{ top:18, left:-145 }, title:'Peel Corner', text:'The curl — turning the page of life. The emotional heart of this poster.' },
+      ],
+    },
+
+    'Interior Designer': {
+      inspiration: 'I imagined getting a real marketing client who does interior design and wants to grow their business. I explored my own room, my house, and some luxury homes I had visited. I decided to make a unique poster different from social media — with a blurred background image, white opacity overlay, and showcase rooms by category: hall, kitchen, TV area, bedroom. I wanted it to feel like a premium interior service, not just a plain ad.',
+      palette: [
+        { hex:'#45333B', name:'Framing Panels — Deep Plum Mauve' },
+        { hex:'#E5E0DC', name:'Background Pattern — Pale Ash Gray' },
+        { hex:'#59424C', name:'Pricing Badge — Shaded Muted Plum' },
+        { hex:'#1C191A', name:'Core Typography — Dark Charcoal' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Stadium Capsule Framing', text:'Photos nested in smoothed rounded capsule shapes — mirrors modern furniture silhouettes like curved sofas and rounded mirrors. Eyes feel calm and harmonious.' },
+        { color:'orange', title:'Script + Geometric Contrast', text:'Bickham Script for "Good Design is" paired with Futura Bold for INTERIORS — elegance meets structure, just like interior design itself.' },
+        { color:'blue',   title:'Plum Brand Color', text:'Deep plum is sophisticated, warm and premium — uncommon in real estate posters which makes it immediately stand out on social media.' },
+      ],
+      annotations: [
+        { box:{ top:2,  left:2,  w:96, h:22 }, color:'blue',   callout:{ top:0,  left:2 }, title:'Brand Header',   text:'Decus wordmark + script slogan — architectural and elegant in one line.' },
+        { box:{ top:24, left:52, w:45, h:72 }, color:'orange', callout:{ top:22, left:-145 }, title:'Capsule Frames', text:'Stadium-rounded image containers — mirrors furniture curves, feels warm.' },
+        { box:{ top:55, left:2,  w:48, h:40 }, color:'white',  callout:{ top:58, left:2 }, title:'Pricing Badge',  text:'3BHK package starting 3.5 Lakhs — clear and prominent CTA.' },
+      ],
+    },
+
+    'Modern House for Sale': {
+      inspiration: 'I was exploring real estate websites and noticed that house-sale posters are very simple — and they look great in simplicity. But I asked myself: what if I gave it a 3D look? I imagined cards stacked on each other, slightly floating, with shadows. I created shapes using the pen tool that are not the usual rectangles — they give the feel that every image is swiping over the other like a deck of cards.',
+      palette: [
+        { hex:'#7A4B9E', name:'Geometric Banner — Deep Amethyst Purple' },
+        { hex:'#2B2B2B', name:'Discount Badge — Charcoal Black' },
+        { hex:'#FFFFFF', name:'Page Background — Pure White' },
+        { hex:'#A2A2A2', name:'Icons & Shadows — Muted Silver Gray' },
+      ],
+      decisions: [
+        { color:'blue',   title:'Diagonal Purple Slash', text:'Sharp diagonal purple slice cutting into the white canvas creates urgency and scarcity — pulls the eye directly into the 24% DISCOUNT badge.' },
+        { color:'orange', title:'Stacked Card Effect', text:'Photos in overlapping pen-tool shapes cascade like a deck of cards — each image slightly over the next, creating layered depth on a flat surface.' },
+        { color:'blue',   title:'Script + Block Title Mix', text:'"Modern" in flowing script followed by HOUSE FOR SALE in Arial Black — welcoming personality meets structural authority.' },
+      ],
+      annotations: [
+        { box:{ top:2,  left:2,  w:45, h:55 }, color:'blue',   callout:{ top:0,  left:2 }, title:'Purple Slash',   text:'Diagonal cut — creates urgency and guides the eye to the discount.' },
+        { box:{ top:10, left:48, w:50, h:78 }, color:'orange', callout:{ top:8,  left:-145 }, title:'Card Stack',  text:'Pen-tool shaped overlapping photos — swiping card depth effect.' },
+        { box:{ top:35, left:2,  w:40, h:18 }, color:'white',  callout:{ top:38, left:2 }, title:'Discount Badge', text:'24% OFF in charcoal circle — maximum visual contrast on white canvas.' },
+      ],
+    },
+
+    'Designer Poster': {
+      inspiration: 'As a graphic designer, I felt my portfolio needed something that directly shows what I do and proves I am a designer. I created a poster where the Figma toolbar is visible, two styluses weave through the stacked DESIGNER text in 3D layers, and the letters D-E-S-I-G-N-E-R are split across three rows with the stylus physically sitting between them. I used AI for the deep detail, shadow work, and background design because those were beyond my current skill level alone — but the concept, composition and layout was entirely my own.',
+      palette: [
+        { hex:'#C65F06', name:'Background Texture — Warm Ochre Amber' },
+        { hex:'#EFEAE4', name:'Giant Headline — Creamy Off-White' },
+        { hex:'#111314', name:'Stylus & Toolbar — Matte Charcoal Black' },
+        { hex:'#692900', name:'Inner Drop Shadow — Deep Burnt Terracotta' },
+      ],
+      decisions: [
+        { color:'orange', title:'Layered 3D Depth Concept', text:'Styluses sandwiched between background glow and foreground text — tricks the eye into seeing physical depth on a flat screen.' },
+        { color:'blue',   title:'Text as Architecture', text:'DESIGNER split across 3 rows with massive letters — the letterforms become literal shelves and walls that the styluses rest on and weave through.' },
+        { color:'orange', title:'Toolbar as Identity Proof', text:'The Figma-style toolbar on the left side is not decoration — it is evidence. It tells anyone who sees this poster: this person works in design software daily.' },
+      ],
+      annotations: [
+        { box:{ top:5,  left:8,  w:82, h:88 }, color:'orange', callout:{ top:2,  left:57 }, title:'3D Text Stack', text:'DE-SIG-NER split in 3 rows — letters become shelves for styluses to rest on.' },
+        { box:{ top:5,  left:2,  w:8,  h:88 }, color:'blue',   callout:{ top:2,  left:-145 }, title:'Figma Toolbar', text:'Real tool panel on left — identity proof that you work in design software.' },
+        { box:{ top:10, left:15, w:70, h:75 }, color:'white',  callout:{ top:8,  left:15 }, title:'Stylus Weave',  text:'Two styluses weave between text layers — physically inhabit the 3D space.' },
+      ],
+    },
+  };
+
+  function openLightbox(i) {
+    lbIndex = i;
+    lbMode = 'view';
+    populateLightbox();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(e) {
+    if (e && e.target !== lightbox) return;
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    lbMode = 'view';
+  }
+
+  function closeFromBtn() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    lbMode = 'view';
+  }
+
+  function setMode(mode) {
+    lbMode = mode;
+    document.getElementById('modeBtnView').classList.toggle('active', mode === 'view');
+    document.getElementById('modeBtnBreak').classList.toggle('active', mode === 'breakdown');
+    renderInfoPane();
+    renderAnnotations();
+  }
+
+  function populateLightbox() {
+    const p = filteredItems[lbIndex];
+    if (!p) return;
+
+    // slide image in
+    const img = document.getElementById('lbImg');
+    img.style.opacity = '0';
+    img.style.transform = 'translateX(30px) scale(0.97)';
+    img.style.transition = 'none';
+    img.src = p.img; img.alt = p.name;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      img.style.transition = 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.23,1,0.32,1)';
+      img.style.opacity = '1'; img.style.transform = 'none';
+    }));
+
+    // topbar
+    const badge = document.getElementById('lbTypeBadge');
+    badge.textContent = p.type === 'vector' ? '🔷 Vector · Figma' : '🟠 Poster · Photoshop';
+    badge.className = `lb-type-badge ${p.type === 'vector' ? 'is-vector' : 'is-poster'}`;
+    document.getElementById('lbTopTitle').textContent = p.name;
+
+    // show/hide breakdown tab
+    const hasBreakdown = !!projectData[p.name];
+    document.getElementById('modeBtnBreak').style.display = hasBreakdown ? 'block' : 'none';
+    if (!hasBreakdown && lbMode === 'breakdown') lbMode = 'view';
+    document.getElementById('modeBtnView').classList.add('active');
+    document.getElementById('modeBtnBreak').classList.remove('active');
+    if (lbMode === 'breakdown' && hasBreakdown) {
+      document.getElementById('modeBtnView').classList.remove('active');
+      document.getElementById('modeBtnBreak').classList.add('active');
+    }
+
+    renderInfoPane();
+    renderAnnotations();
+  }
+
+  function renderInfoPane() {
+    const p = filteredItems[lbIndex];
+    if (!p) return;
+    const pane = document.getElementById('lbInfoPane');
+    const data = projectData[p.name];
+    const cls  = p.type === 'vector' ? 'is-vector' : 'is-poster';
+
+    if (lbMode === 'view' || !data) {
+      // VIEW MODE
+      pane.innerHTML = `
+        <div>
+          <div class="lb-section-head">About</div>
+          <div class="lb-section-text">${descriptions[p.name] || ''}</div>
+        </div>
+        <div>
+          <div class="lb-section-head">Tags</div>
+          <div class="lb-tags">${p.tags.map(t => `<span class="lb-tag ${cls}">${t}</span>`).join('')}</div>
+        </div>
+        <div class="lb-tool-chip"><div class="lb-tool-dot"></div>${p.type === 'vector' ? 'Created in Figma' : 'Created in Adobe Photoshop'}</div>
+      `;
+    } else {
+      // BREAKDOWN MODE
+      const swatches = data.palette.map(s => `
+        <div class="lb-swatch-row">
+          <div class="lb-swatch" style="background:${s.hex};"></div>
+          <div><div class="lb-swatch-hex">${s.hex}</div><div class="lb-swatch-name">${s.name}</div></div>
+        </div>`).join('');
+
+      const decisions = data.decisions.map(d => `
+        <div class="lb-breakdown-box">
+          <div class="lb-breakdown-box-title ${d.color}">${d.title}</div>
+          <div class="lb-breakdown-box-text">${d.text}</div>
+        </div>`).join('');
+
+      pane.innerHTML = `
+        <div>
+          <div class="lb-section-head">Inspiration</div>
+          <div class="lb-section-text">${data.inspiration}</div>
+        </div>
+        <div>
+          <div class="lb-section-head">Color Palette</div>
+          <div class="lb-palette">${swatches}</div>
+        </div>
+        <div>
+          <div class="lb-section-head">Design Decisions</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">${decisions}</div>
+        </div>
+      `;
+    }
+  }
+
+  function renderAnnotations() {
+    const p = filteredItems[lbIndex];
+    const overlay = document.getElementById('lbAnnOverlay');
+    overlay.innerHTML = '';
+
+    if (lbMode !== 'breakdown' || !p || !projectData[p.name]) {
+      overlay.classList.remove('visible');
+      return;
+    }
+    overlay.classList.add('visible');
+    const anns = projectData[p.name].annotations;
+    anns.forEach(a => {
+      const box = document.createElement('div');
+      box.className = `ann-box ${a.color}`;
+      box.style.cssText = `top:${a.box.top}%;left:${a.box.left}%;width:${a.box.w}%;height:${a.box.h}%;`;
+
+      const callout = document.createElement('div');
+      callout.className = 'ann-callout';
+      callout.style.cssText = `top:${a.callout.top}px;left:${a.callout.left}px;`;
+      callout.innerHTML = `<div class="ann-callout-title ${a.color}">${a.title}</div><div class="ann-callout-text">${a.text}</div>`;
+
+      box.appendChild(callout);
+      overlay.appendChild(box);
+    });
+  }
+
+  function lbStep(dir) {
+    lbIndex = (lbIndex + dir + filteredItems.length) % filteredItems.length;
+    const img = document.getElementById('lbImg');
+    const slideDir = dir > 0 ? -1 : 1;
+    img.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+    img.style.opacity = '0';
+    img.style.transform = `translateX(${slideDir * 40}px) scale(0.96)`;
+    setTimeout(() => { lbMode = 'view'; populateLightbox(); }, 220);
+  }
+
+  // click dark backdrop to close
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeFromBtn();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape')     closeFromBtn();
+    if (e.key === 'ArrowRight') lbStep(1);
+    if (e.key === 'ArrowLeft')  lbStep(-1);
+  });
+
+  // ── CONTACT JS ──
+  // Service selector
+  function selectService(el, name) {
+    document.querySelectorAll('.ct-service').forEach(s => s.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('ctService').value = name;
+  }
+  const ctPar = document.getElementById('ctParticles');
+  if (ctPar) {
+    const colors = ['rgba(0,87,255,0.6)','rgba(255,101,0,0.5)','rgba(61,126,255,0.5)','rgba(162,89,255,0.4)'];
+    function spawnCtParticle() {
+      const p = document.createElement('div');
+      p.className = 'ct-particle';
+      const size = Math.random() * 4 + 2;
+      const dur  = 4 + Math.random() * 6;
+      const delay= Math.random() * 4;
+      const left = 10 + Math.random() * 80;
+      const top  = 20 + Math.random() * 60;
+      const col  = colors[Math.floor(Math.random()*colors.length)];
+      p.style.cssText = `width:${size}px;height:${size}px;left:${left}%;top:${top}%;background:${col};box-shadow:0 0 ${size*3}px ${col};animation-duration:${dur}s;animation-delay:${delay}s;`;
+      ctPar.appendChild(p);
+      setTimeout(() => p.remove(), (dur+delay)*1000);
+    }
+    setInterval(spawnCtParticle, 400);
+    for (let i=0;i<8;i++) spawnCtParticle();
+  }
+
+  // Character counter
+  const ctMsg = document.getElementById('ctMsg');
+  const ctCount = document.getElementById('ctCount');
+  if (ctMsg) {
+    ctMsg.addEventListener('input', () => {
+      ctCount.textContent = ctMsg.value.length;
+      ctCount.style.color = ctMsg.value.length > 450 ? '#FF6500' : 'rgba(255,255,255,0.18)';
+    });
+  }
+
+  // Ripple on button
+  const ctBtn = document.getElementById('ctBtn');
+  if (ctBtn) {
+    ctBtn.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const r = document.createElement('div');
+      r.className = 'ct-ripple';
+      const size = Math.max(rect.width, rect.height);
+      r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
+      this.appendChild(r);
+      setTimeout(() => r.remove(), 800);
+    });
+  }
+
+  // Form submit
+  const ctForm = document.getElementById('ctForm');
+  const ctSuccess = document.getElementById('ctSuccess');
+  if (ctForm) {
+    ctForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('ctBtn');
+      btn.querySelector('span').textContent = 'Sending...';
+      btn.style.opacity = '0.7';
+      btn.style.pointerEvents = 'none';
+      try {
+        await fetch(ctForm.action, {
+          method: 'POST', body: new FormData(ctForm),
+          headers: { Accept: 'application/json' }
+        });
+        ctForm.style.transition = 'opacity 0.3s, transform 0.3s';
+        ctForm.style.opacity = '0';
+        ctForm.style.transform = 'translateY(12px)';
+        setTimeout(() => {
+          ctForm.style.display = 'none';
+          ctSuccess.style.display = 'flex';
+        }, 320);
+      } catch(err) {
+        btn.querySelector('span').textContent = 'Send Message';
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'all';
+      }
+    });
+  }
+
+  buildGrid();
+
+</script>
+</body>
+</html>
