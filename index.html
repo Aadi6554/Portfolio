@@ -749,6 +749,209 @@
     }
     .proj-count span { color: var(--blue); font-weight: 600; }
 
+    /* ── TOOLBAR (filter + search + sort) ── */
+    .proj-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+    .proj-toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .proj-search {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .proj-search svg {
+      position: absolute;
+      left: 13px;
+      pointer-events: none;
+      color: var(--muted);
+    }
+    .proj-search input {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
+      color: var(--white);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px 10px 36px;
+      width: 220px;
+      outline: none;
+      transition: border-color 0.2s, width 0.3s, background 0.2s;
+    }
+    .proj-search input::placeholder { color: rgba(255,255,255,0.3); }
+    .proj-search input:focus {
+      border-color: var(--blue);
+      background: rgba(0,87,255,0.06);
+      width: 250px;
+    }
+    .proj-sort {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      outline: none;
+      cursor: pointer;
+    }
+    .proj-sort option { background: #0a0d14; color: var(--white); }
+
+    /* ── SUB-CATEGORY PILLS (per tool) ── */
+    .proj-cat-filter {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .proj-cat-filter.is-empty { display: none; }
+    .proj-cat-tab {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .proj-cat-tab.active {
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      border-color: rgba(255,255,255,0.3);
+    }
+    .proj-no-results {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 70px 20px;
+      color: var(--muted);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      border: 1px dashed rgba(255,255,255,0.1);
+      border-radius: 16px;
+    }
+    .proj-no-results strong { color: var(--orange); display: block; font-size: 1.1rem; margin-bottom: 8px; }
+
+    /* ── FEATURED BENTO ROW ── */
+    .proj-featured-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 36px 0 14px;
+    }
+    .proj-featured-label::before {
+      content: '';
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 10px var(--orange);
+    }
+    .proj-featured {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 160px;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .feat-card {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #0a0d14;
+    }
+    .feat-card.feat-big { grid-column: span 2; grid-row: span 2; }
+    .feat-card.feat-small { grid-column: span 2; grid-row: span 1; }
+    .feat-card img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.23,1,0.32,1), filter 0.5s ease;
+      filter: brightness(0.82);
+    }
+    .feat-card:hover img { transform: scale(1.06); filter: brightness(1); }
+    .feat-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(1,2,8,0.92) 0%, rgba(1,2,8,0.15) 55%, transparent 100%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 18px 20px;
+    }
+    .feat-badge {
+      position: absolute; top: 14px; left: 14px;
+      display: flex; align-items: center; gap: 5px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--white);
+      background: rgba(255,101,0,0.85);
+      padding: 5px 10px;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .feat-name {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .feat-card.feat-big .feat-name { font-size: 1.3rem; }
+    .feat-card.feat-small .feat-name { font-size: 1rem; }
+    .feat-meta {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.55);
+    }
+    @media (max-width: 900px) {
+      .proj-featured { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
+      .feat-card.feat-big, .feat-card.feat-small { grid-column: span 2; }
+    }
+
+    /* ── LOAD MORE ── */
+    .proj-loadmore-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    .proj-loadmore-btn {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--white);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 13px 28px;
+      cursor: pointer;
+      transition: border-color 0.25s, background 0.25s, transform 0.2s;
+    }
+    .proj-loadmore-btn svg { transition: transform 0.25s ease; }
+    .proj-loadmore-btn:hover {
+      border-color: var(--blue);
+      background: rgba(0,87,255,0.08);
+      transform: translateY(-2px);
+    }
+    .proj-loadmore-btn:hover svg { transform: translateY(2px); }
+    .proj-loadmore-wrap.is-hidden { display: none; }
+
     .proj-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -864,6 +1067,9 @@
     }
     .proj-card-cat.is-vector { color: #4D8AFF; }
     .proj-card-cat.is-poster { color: #FF8533; }
+    .proj-card-cat.is-uiux { color: #B388FF; }
+    .proj-card-cat.is-branding { color: #2DD4BF; }
+    .proj-card-cat.is-creative { color: #FFFFFF; }
     .proj-card-tags {
       display: flex;
       gap: 4px;
@@ -881,8 +1087,14 @@
     /* colored top border per type */
     .proj-card.is-vector { border-top: 2px solid rgba(0,87,255,0.4); }
     .proj-card.is-poster { border-top: 2px solid rgba(255,101,0,0.4); }
+    .proj-card.is-uiux { border-top: 2px solid rgba(179,136,255,0.4); }
+    .proj-card.is-branding { border-top: 2px solid rgba(45,212,191,0.4); }
+    .proj-card.is-creative { border-top: 2px solid rgba(255,255,255,0.4); }
     .proj-card.is-vector:hover { border-color: rgba(0,87,255,0.7); box-shadow: 0 16px 48px rgba(0,87,255,0.2); }
     .proj-card.is-poster:hover { border-color: rgba(255,101,0,0.7); box-shadow: 0 16px 48px rgba(255,101,0,0.2); }
+    .proj-card.is-uiux:hover { border-color: rgba(179,136,255,0.7); box-shadow: 0 16px 48px rgba(179,136,255,0.2); }
+    .proj-card.is-branding:hover { border-color: rgba(45,212,191,0.7); box-shadow: 0 16px 48px rgba(45,212,191,0.2); }
+    .proj-card.is-creative:hover { border-color: rgba(255,255,255,0.7); box-shadow: 0 16px 48px rgba(255,255,255,0.2); }
 
     /* ── LIGHTBOX FULL REDESIGN ── */
     .lightbox {
@@ -921,6 +1133,9 @@
     }
     .lb-type-badge.is-vector { background: rgba(0,87,255,0.15); color: #4D8AFF; border: 1px solid rgba(0,87,255,0.25); }
     .lb-type-badge.is-poster { background: rgba(255,101,0,0.15); color: #FF8533; border: 1px solid rgba(255,101,0,0.25); }
+    .lb-type-badge.is-uiux { background: rgba(179,136,255,0.15); color: #B388FF; border: 1px solid rgba(179,136,255,0.25); }
+    .lb-type-badge.is-branding { background: rgba(45,212,191,0.15); color: #2DD4BF; border: 1px solid rgba(45,212,191,0.25); }
+    .lb-type-badge.is-creative { background: rgba(255,255,255,0.15); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.25); }
     .lb-topbar-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem; color: var(--white); }
     .lb-topbar-right { display: flex; align-items: center; gap: 8px; }
     .lb-nav-btn {
@@ -1029,6 +1244,9 @@
     .lb-tag { font-size: 0.67rem; font-family: 'Outfit', sans-serif; font-weight: 500; padding: 3px 9px; border-radius: 20px; }
     .lb-tag.is-vector { background: rgba(0,87,255,0.1); color: #4D8AFF; border: 1px solid rgba(0,87,255,0.2); }
     .lb-tag.is-poster { background: rgba(255,101,0,0.1); color: #FF8533; border: 1px solid rgba(255,101,0,0.2); }
+    .lb-tag.is-uiux { background: rgba(179,136,255,0.1); color: #B388FF; border: 1px solid rgba(179,136,255,0.2); }
+    .lb-tag.is-branding { background: rgba(45,212,191,0.1); color: #2DD4BF; border: 1px solid rgba(45,212,191,0.2); }
+    .lb-tag.is-creative { background: rgba(255,255,255,0.1); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); }
     .lb-tool-chip {
       display: inline-flex; align-items: center; gap: 6px;
       font-family: 'Outfit', sans-serif; font-size: 0.7rem; font-weight: 500;
@@ -1052,6 +1270,109 @@
       font-family: 'DM Sans', sans-serif;
       font-size: 0.76rem; color: rgba(255,255,255,0.52); line-height: 1.65;
     }
+
+    /* ── LIKES & COMMENTS ── */
+    .lb-social {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .lb-like-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 7px 16px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .lb-like-btn:hover { border-color: rgba(255,101,0,0.4); color: var(--white); }
+    .lb-like-btn:active { transform: scale(0.95); }
+    .lb-like-btn svg { transition: fill 0.2s, stroke 0.2s, transform 0.2s; }
+    .lb-like-btn.is-liked {
+      color: var(--orange);
+      border-color: rgba(255,101,0,0.5);
+      background: rgba(255,101,0,0.08);
+    }
+    .lb-like-btn.is-liked svg { fill: var(--orange); stroke: var(--orange); transform: scale(1.1); }
+
+    .lb-comments {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .lb-no-comments {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.76rem;
+      color: rgba(255,255,255,0.35);
+      font-style: italic;
+    }
+    .lb-comment {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 9px 12px;
+    }
+    .lb-comment-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 3px;
+    }
+    .lb-comment-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.76rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.55;
+      word-break: break-word;
+    }
+    .lb-comment-form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .lb-comment-form input,
+    .lb-comment-form textarea {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      color: var(--white);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      outline: none;
+      resize: none;
+      transition: border-color 0.2s;
+    }
+    .lb-comment-form input:focus,
+    .lb-comment-form textarea:focus { border-color: var(--blue); }
+    .lb-comment-form textarea { min-height: 60px; }
+    .lb-comment-form button {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--white);
+      background: var(--blue);
+      border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .lb-comment-form button:hover { opacity: 0.85; }
+    .lb-comment-form button:disabled { opacity: 0.5; cursor: not-allowed; }
 
     /* old carousel CSS removed — replaced by proj-grid above */
 
@@ -1913,7 +2234,7 @@
         </div>
         <div class="stat-card" style="--s-color:#A259FF;--s-glow:rgba(162,89,255,0.35);">
           <div class="stat-icon">📅</div>
-          <div class="stat-number" data-target="4">0</div><div class="stat-plus"></div>
+          <div class="stat-number" data-target="7">0</div><div class="stat-plus"></div>
           <div class="stat-label">Months in Design</div>
           <div class="stat-shine"></div>
         </div>
@@ -2046,14 +2367,38 @@
   <h2 class="section-title">My Work</h2>
   <p class="section-subtitle">Filter by category · Click any card to view full image</p>
 
-  <div class="proj-filter">
-    <button class="proj-tab active" onclick="projFilter('all',this)">All</button>
-    <button class="proj-tab" onclick="projFilter('vector',this)">🔷 Vectors</button>
-    <button class="proj-tab" onclick="projFilter('poster',this)">🟠 Posters</button>
+  <p class="proj-featured-label">Featured Work</p>
+  <div class="proj-featured" id="projFeatured"></div>
+
+  <div class="proj-toolbar">
+    <div class="proj-filter">
+      <button class="proj-tab active" onclick="toolFilter('all',this)">All</button>
+      <button class="proj-tab" onclick="toolFilter('Figma',this)">🎨 Figma</button>
+      <button class="proj-tab" onclick="toolFilter('Photoshop',this)">🖌️ Photoshop</button>
+      <button class="proj-tab" onclick="toolFilter('Illustrator',this)">✒️ Illustrator</button>
+    </div>
+    <div class="proj-toolbar-right">
+      <div class="proj-cat-filter is-empty" id="projCatFilter"></div>
+      <div class="proj-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="projSearch" placeholder="Search projects or tags…" oninput="projSearchInput(this.value)" />
+      </div>
+      <select class="proj-sort" id="projSort" onchange="projSortChange(this.value)">
+        <option value="newest">Newest First</option>
+        <option value="az">Name A–Z</option>
+      </select>
+    </div>
   </div>
 
   <div class="proj-count" id="projCount"><span>22</span> projects</div>
   <div class="proj-grid" id="projGrid"></div>
+
+  <div class="proj-loadmore-wrap" id="projLoadMoreWrap">
+    <button class="proj-loadmore-btn" id="projLoadMoreBtn" onclick="projLoadMore()">
+      <span>View More Work</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
 </section>
 
 <!-- ── LIGHTBOX ── -->
@@ -2280,6 +2625,28 @@
   </div>
 </footer>
 
+<!-- ── FIREBASE (likes & comments) ── -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCvJ11InUhA17CIaDoQ5b6T66lTt70e3WQ",
+    authDomain: "aadi-portfolio-c4ce7.firebaseapp.com",
+    projectId: "aadi-portfolio-c4ce7",
+    storageBucket: "aadi-portfolio-c4ce7.firebasestorage.app",
+    messagingSenderId: "457382862337",
+    appId: "1:457382862337:web:ba7e93aeef2fc386eeaa00",
+    measurementId: "G-8XKL4H3ESR"
+  };
+  let db = null;
+  try {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+  } catch (e) {
+    console.error('Firebase failed to initialize:', e);
+  }
+</script>
+
 <script>
   // ── PRELOADER ──
   window.addEventListener('load', () => {
@@ -2417,49 +2784,197 @@
 
   // ── PROJECT GRID + LIGHTBOX ──
   const allProjects = [
-    { type:'vector', name:'Reindeer × Moon',          tags:['Silhouette','Landscape','Monochrome'], img:'Randeer_X_moon.png' },
-    { type:'vector', name:'Geometric Dog',             tags:['Geometric','Cubism','Animal'],         img:'Dog.png' },
-    { type:'vector', name:'The Lighthouse',            tags:['Landscape','Architecture','Flat'],      img:'Light_House.png' },
-    { type:'vector', name:'Gallery View',              tags:['Interior','Santorini','Flat Art'],     img:'Gallery_View.png' },
-    { type:'vector', name:'German Shepherd Cubist',    tags:['Cubism','Portrait','Bold Color'],      img:'German_Shephard.png' },
-    { type:'vector', name:'Tree',    tags:['Plain','Portrait','Colour Gradient'],      img:'Tree.png' },
-    { type:'poster', name:'BMW M3 G80',                tags:['Automobile','Dark','Editorial'],       img:'BMW_M3_G80.png' },
-    { type:'poster', name:'BMW M4 Competition',        tags:['Automobile','Yellow','Performance'],   img:'BMW_M4.png' },
-    { type:'poster', name:'Mercedes-AMG GT Black',     tags:['Automobile','Red','Luxury'],           img:'Mercedes_AMG_GT-_Black_Series.png' },
-    { type:'poster', name:'Porsche 911',               tags:['Automobile','Night','Cinematic'],      img:'Porsche_poster.png' },
-    { type:'poster', name:'Ducati Panigale V4',               tags:['Automobile','red','Performance'],      img:'Ducati_Panigale_V4.png' },
-    { type:'poster', name:'JBL Headphones',            tags:['Product','Audio','Teal'],              img:'JBL_Headphones.png' },
-    { type:'poster', name:'Fossil Gen 5 Watch',        tags:['Product','Luxury','UI Design'],        img:'Fossil_gen_watch.png' },
-    { type:'poster', name:'Nike Air Force',            tags:['Footwear','Fashion','Sport'],          img:'Nike_Shoe.png' },
-    { type:'poster', name:'Sony game Console',            tags:['Gaming','Fashion','E-Sport'],          img:'Sony_Game_Console.png' },
-    { type:'poster', name:'Timeless Elegance Perfume', tags:['Luxury','Fragrance','Minimal'],        img:'Perfume.png' },
-    { type:'poster', name:'Hoodie Drop',               tags:['Fashion','Streetwear','Dark'],         img:'Hoodie.png' },
-    { type:'poster', name:'Polo Sweatshirt',           tags:['Fashion','Apparel','Clean'],           img:'Polo_T-shirt.png' },
-    { type:'poster', name:'Global Travel',             tags:['Travel','Tourism','Commercial'],       img:'GLoble_travel.png' },
-    { type:'poster', name:'Interior Designer',         tags:['Real Estate','Interior','Lifestyle'],  img:'Interior_Designer.png' },
-    { type:'poster', name:'Modern House for Sale',     tags:['Real Estate','Architecture','Bold'],   img:'Modern_House_for_sale.png' },
-    { type:'poster', name:'Designer Poster',           tags:['Self-Promo','Typography','Bold'],      img:'Creative_post.png' },
-  ];
+    { type:'vector', name:'Reindeer × Moon',          tags:['Silhouette','Landscape','Monochrome'], img:'Randeer_X_moon.png', tool:'Figma' },
+    { type:'vector', name:'Geometric Dog',             tags:['Geometric','Cubism','Animal'],         img:'Dog.png', tool:'Figma' },
+    { type:'vector', name:'The Lighthouse',            tags:['Landscape','Architecture','Flat'],      img:'Light_House.png', tool:'Figma' },
+    { type:'vector', name:'Gallery View',              tags:['Interior','Santorini','Flat Art'],     img:'Gallery_View.png', tool:'Figma', featured:true },
+    { type:'vector', name:'German Shepherd Cubist',    tags:['Cubism','Portrait','Bold Color'],      img:'German_Shephard.png', tool:'Figma' },
+    { type:'vector', name:'Tree',    tags:['Plain','Portrait','Colour Gradient'],      img:'Tree.png', tool:'Figma' },
+    { type:'poster', name:'BMW M3 G80',                tags:['Automobile','Dark','Editorial'],       img:'BMW_M3_G80.png', tool:'Figma', featured:true },
+    { type:'poster', name:'BMW M4 Competition',        tags:['Automobile','Yellow','Performance'],   img:'BMW_M4.png', tool:'Figma' },
+    { type:'poster', name:'Mercedes-AMG GT Black',     tags:['Automobile','Red','Luxury'],           img:'Mercedes_AMG_GT-_Black_Series.png', tool:'Figma' },
+    { type:'poster', name:'Porsche 911',               tags:['Automobile','Night','Cinematic'],      img:'Porsche_poster.png', tool:'Figma' },
+    { type:'poster', name:'Ducati Panigale V4',               tags:['Automobile','red','Performance'],      img:'Ducati_Panigale_V4.png', tool:'Figma', featured:true },
+    { type:'poster', name:'JBL Headphones',            tags:['Product','Audio','Teal'],              img:'JBL_Headphones.png', tool:'Figma' },
+    { type:'poster', name:'Fossil Gen 5 Watch',        tags:['Product','Luxury','UI Design'],        img:'Fossil_gen_watch.png', tool:'Figma' },
+    { type:'poster', name:'Nike Air Force',            tags:['Footwear','Fashion','Sport'],          img:'Nike_Shoe.png', tool:'Figma' },
+    { type:'poster', name:'Sony game Console',            tags:['Gaming','Fashion','E-Sport'],          img:'Sony_Game_Console.png', tool:'Figma' },
+    { type:'poster', name:'Timeless Elegance Perfume', tags:['Luxury','Fragrance','Minimal'],        img:'Perfume.png', tool:'Figma' },
+    { type:'poster', name:'Hoodie Drop',               tags:['Fashion','Streetwear','Dark'],         img:'Hoodie.png', tool:'Figma' },
+    { type:'poster', name:'Polo Sweatshirt',           tags:['Fashion','Apparel','Clean'],           img:'Polo_T-shirt.png', tool:'Figma' },
+    { type:'poster', name:'Global Travel',             tags:['Travel','Tourism','Commercial'],       img:'GLoble_travel.png', tool:'Figma' },
+    { type:'poster', name:'Shampoo Poster',             tags:['Skin care','Fragnance','Commercial'],       img:'Shampoo_Poster.png', tool:'Figma' },
+    { type:'poster', name:'Interior Designer',         tags:['Real Estate','Interior','Lifestyle'],  img:'Interior_Designer.png', tool:'Figma' },
+    { type:'poster', name:'Modern House for Sale',     tags:['Real Estate','Architecture','Bold'],   img:'Modern_House_for_sale.png', tool:'Figma' },
+    { type:'poster', name:'Designer Poster',           tags:['Self-Promo','Typography','Bold'],      img:'Creative_post.png', tool:'Figma' },
+    { type:'branding', name:'Bag Mockup',           tags:['Branding','Layering','Bold'],      img:'Bag_Mockup.png', tool:'Photoshop' },
+    { type:'branding', name:'Bottle Mockup',           tags:['Branding','Layering','Bold'],      img:'Bottle_Mockup.png', tool:'Photoshop' },
+    { type:'branding', name:'Cap Mockup',           tags:['Branding','Layering','Bold'],      img:'Cap_Mockup.png', tool:'Photoshop' },
+    { type:'branding', name:'Cup Mockup',           tags:['Branding','Layering','Bold'],      img:'Cup_Mockup.png', tool:'Photoshop' },
+    { type:'branding', name:'Dairy Mockup',           tags:['Branding','Layering','Bold'],      img:'Dairy_Mockup.png', tool:'Photoshop' },
+    { type:'branding', name:'T-shirt Mockup',           tags:['Branding','Layering','Bold'],      img:'T-shirt_Mockup.png', tool:'Photoshop' },
+    { type:'creative', name:'DE1',           tags:['Double Exposure','Photo Manipulation','Cinematic'],      img:'DE1.png', tool:'Photoshop' },
+    { type:'creative', name:'DE2',           tags:['Double Exposure','Photo Manipulation','Cinematic'],      img:'DE2.png', tool:'Photoshop' },
+    { type:'creative', name:'DE3',           tags:['Double Exposure','Photo Manipulation','Cinematic'],      img:'DE3.png', tool:'Photoshop' },
+    { type:'creative', name:'DE4',           tags:['Double Exposure','Photo Manipulation','Cinematic'],      img:'DE4.png', tool:'Photoshop' },
+    { type:'creative', name:'DE5',           tags:['Double Exposure','Photo Manipulation','Cinematic'],      img:'DE5.png', tool:'Photoshop' },
+    { type:'creative', name:'Dress Overlay 1',         tags:['dress Overlay','Photo Manipulation','Cinematic'],      img:'Dress_Overlay_1.png', tool:'Photoshop' },
+    { type:'creative', name:'Dress Overlay 2',         tags:['dress Overlay','Photo Manipulation','Cinematic'],      img:'Dress_Overlay_2.png', tool:'Photoshop' },
+    { type:'creative', name:'Dress Overlay 3',         tags:['dress Overlay','Photo Manipulation','Cinematic'],      img:'Dress_Overlay_3.png', tool:'Photoshop' },
+    { type:'creative', name:'Dress Overlay 4',         tags:['dress Overlay','Photo Manipulation','Cinematic'],      img:'Dress_Overlay_4.png', tool:'Photoshop' },
+    { type:'creative', name:'Dress Overlay 5',         tags:['dress Overlay','Photo Manipulation','Cinematic'],      img:'Dress_Overlay_5.png', tool:'Photoshop' },
+    { type:'creative', name:'Can Overlay 1',         tags:['Photoshop', 'Packaging Design', 'Product Visualization', 'Realistic Mockup',],      img:'Can_Overlay_1.png', tool:'Photoshop' },
+    { type:'creative', name:'Can Overlay 2',         tags:['Photoshop', 'Packaging Design', 'Product Visualization', 'Realistic Mockup',],      img:'Can_Overlay_2.png', tool:'Photoshop' },
+    { type:'creative', name:'Can Overlay 3',         tags:['Photoshop', 'Packaging Design', 'Product Visualization', 'Realistic Mockup',],      img:'Can_Overlay_3.png', tool:'Photoshop' },
+    { type:'creative', name:'Can Overlay 4',         tags:['Photoshop', 'Packaging Design', 'Product Visualization', 'Realistic Mockup',],      img:'Can_Overlay_4.png', tool:'Photoshop' },
+    { type:'creative', name:'Can Overlay 5',         tags:['Photoshop', 'Packaging Design', 'Product Visualization', 'Realistic Mockup',],      img:'Can_Overlay_5.png', tool:'Photoshop' },
+    { type:'creative', name:'Can Overlay 6',         tags:['Photoshop', 'Packaging Design', 'Product Visualization', 'Realistic Mockup',],      img:'Can_Overlay_6.png', tool:'Photoshop' },
+    { type:'poster', name:'Porsche',         tags:['Automotive Branding', 'Cutout Typography', 'Negative Space Design', 'Editorial Poster Style',],      img:'Porsche_2.png', tool:'Photoshop' },
+    { type:'poster', name:'Animated Child Poster',         tags:['Creative Agency Poster', '3D Character Design', 'Typography Layout', 'Social Media Ad',],      img:'Animated_Child_Poster.png', tool:'Photoshop' },
+    { type:'poster', name:'Need a Designer',         tags:['Service Promotion', '3D Illustration', 'Social Media Creative', 'Branding Layout',],      img:'Need_a_Designer.png', tool:'Photoshop' },
+    { type:'poster', name:'Burger Poster',         tags:['Food Advertising', 'Promo Design', 'Product Composition', 'Bold Typography',],      img:'Burger_Poster.png', tool:'Photoshop' },
+    { type:'poster', name:'Dove Shampoo',         tags:['Beauty Advertisement', 'Product Placement', 'Clean Minimal Layout', 'Commercial Retouching',],      img:'Dove_poster.png', tool:'Photoshop' },
+    { type:'poster', name:'Face Typography',         tags:['Typography Poster', 'Double Exposure', 'Black & White Edit', 'Conceptual Design',],      img:'face_typography.png', tool:'Photoshop' },
+    { type:'poster', name:'Fanta',         tags:['Beverage Advertising', 'Fruit Splash Composition', 'Vibrant Color Grading', 'Product Key Visual',],      img:'fanta.png', tool:'Photoshop' },
+    { type:'poster', name:'Cold Coffee Poster',         tags:['Dessert Advertisement', ' Liquid Effect', 'Composite Manipulation', 'Product Poster Design',],      img:'cold_coffee_poster_2.png', tool:'Photoshop' },
+    { type:'poster', name:'Cold Coffee',         tags:['Beverage Promo', 'Poster Layout Design', ' Pricing Design', 'Background Pattern Design',],      img:'cold_coffee.png', tool:'Photoshop' },
+    ];  
 
-  let activeFilter   = 'all';
+  let activeTool     = 'all';
+  let activeCategory = 'all';
+  let searchQuery    = '';
+  let sortMode       = 'newest';
   let filteredItems  = [...allProjects];
   let lbIndex        = 0;
 
-  const grid      = document.getElementById('projGrid');
-  const countEl   = document.getElementById('projCount');
-  const lightbox  = document.getElementById('lightbox');
+  const PAGE_SIZE   = 9;
+  let visibleCount  = PAGE_SIZE;
+
+  const grid        = document.getElementById('projGrid');
+  const countEl     = document.getElementById('projCount');
+  const featGrid    = document.getElementById('projFeatured');
+  const catFilterEl = document.getElementById('projCatFilter');
+  const lightbox    = document.getElementById('lightbox');
+  const loadMoreWrap = document.getElementById('projLoadMoreWrap');
+  const loadMoreBtn  = document.getElementById('projLoadMoreBtn');
+
+  // category metadata: icon, label, css class — keyed by p.type
+  const CAT_META = {
+    vector:   { icon: '🔷', label: 'Vector',   cls: 'is-vector' },
+    poster:   { icon: '🟠', label: 'Poster',   cls: 'is-poster' },
+    uiux:     { icon: '🟣', label: 'UI/UX',    cls: 'is-uiux' },
+    branding: { icon: '🟢', label: 'Branding', cls: 'is-branding' },
+    creative: { icon: '🟡', label: 'Creative', cls: 'is-creative' },
+  };
+  // which sub-categories each tool offers in the right-side filter
+  const TOOL_CATEGORIES = {
+    Figma:       ['vector', 'poster', 'uiux'],
+    Photoshop:   ['vector', 'poster', 'branding', 'creative'],
+    Illustrator: [], // no sub-filter for Illustrator
+  };
+  function catMeta(type) {
+    return CAT_META[type] || { icon: '⬜', label: type, cls: '' };
+  }
+
+  function buildFeatured() {
+    if (!featGrid) return;
+    const feats = allProjects.filter(p => p.featured);
+    featGrid.innerHTML = feats.map((p, idx) => {
+      const m = catMeta(p.type);
+      return `
+      <div class="feat-card ${idx === 0 ? 'feat-big' : 'feat-small'}" onclick="openFeatured('${p.name.replace(/'/g,"\\'")}')">
+        <div class="feat-badge">★ Featured</div>
+        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.opacity='0.3'" />
+        <div class="feat-card-overlay">
+          <div class="feat-name">${p.name}</div>
+          <div class="feat-meta">${m.icon} ${m.label} · ${p.tool}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function buildCategoryBar() {
+    if (!catFilterEl) return;
+    const cats = TOOL_CATEGORIES[activeTool];
+    if (!cats || cats.length === 0) {
+      catFilterEl.innerHTML = '';
+      catFilterEl.classList.add('is-empty');
+      return;
+    }
+    catFilterEl.classList.remove('is-empty');
+    const allBtn = `<button class="proj-cat-tab ${activeCategory === 'all' ? 'active' : ''}" onclick="catFilter('all',this)">All</button>`;
+    const catBtns = cats.map(c => {
+      const m = catMeta(c);
+      return `<button class="proj-cat-tab ${activeCategory === c ? 'active' : ''}" onclick="catFilter('${c}',this)">${m.icon} ${m.label}</button>`;
+    }).join('');
+    catFilterEl.innerHTML = allBtn + catBtns;
+  }
+
+  function projSearchInput(val) {
+    searchQuery = val.trim().toLowerCase();
+    visibleCount = PAGE_SIZE;
+    buildGrid();
+  }
+
+  function projSortChange(val) {
+    sortMode = val;
+    visibleCount = PAGE_SIZE;
+    buildGrid();
+  }
+
+  function projLoadMore() {
+    visibleCount += PAGE_SIZE;
+    buildGrid(true);
+  }
 
   function buildGrid() {
-    filteredItems = activeFilter === 'all'
-      ? allProjects
-      : allProjects.filter(p => p.type === activeFilter);
+    let items = activeTool === 'all'
+      ? [...allProjects]
+      : allProjects.filter(p => p.tool === activeTool);
+
+    if (activeCategory !== 'all') {
+      items = items.filter(p => p.type === activeCategory);
+    }
+
+    const hadFilterNoSearch = items.length === 0 && !searchQuery && (activeTool !== 'all' || activeCategory !== 'all');
+
+    if (searchQuery) {
+      items = items.filter(p =>
+        p.name.toLowerCase().includes(searchQuery) ||
+        p.tags.some(t => t.toLowerCase().includes(searchQuery))
+      );
+    }
+
+    if (sortMode === 'az') {
+      items = [...items].sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    filteredItems = items;
 
     countEl.innerHTML = `<span>${filteredItems.length}</span> project${filteredItems.length !== 1 ? 's' : ''}`;
     grid.innerHTML = '';
 
-    filteredItems.forEach((p, i) => {
+    if (filteredItems.length === 0) {
+      grid.innerHTML = hadFilterNoSearch
+        ? `<div class="proj-no-results"><strong>Coming Soon</strong>New work for this category is on the way — check back soon!</div>`
+        : `<div class="proj-no-results"><strong>No matches</strong>Try a different search term or filter.</div>`;
+      loadMoreWrap.classList.add('is-hidden');
+      return;
+    }
+
+    const visibleItems = filteredItems.slice(0, visibleCount);
+
+    if (visibleItems.length < filteredItems.length) {
+      loadMoreWrap.classList.remove('is-hidden');
+      loadMoreBtn.querySelector('span').textContent = `View More Work (${filteredItems.length - visibleItems.length} left)`;
+    } else {
+      loadMoreWrap.classList.add('is-hidden');
+    }
+
+    visibleItems.forEach((p, i) => {
+      const m = catMeta(p.type);
       const card = document.createElement('div');
-      card.className = `proj-card ${p.type === 'vector' ? 'is-vector' : 'is-poster'}`;
+      card.className = `proj-card ${m.cls}`;
 
       card.innerHTML = `
         <div class="proj-card-thumb">
@@ -2479,8 +2994,8 @@
         <div class="proj-card-footer">
           <div class="proj-card-name">${p.name}</div>
           <div class="proj-card-meta">
-            <div class="proj-card-cat ${p.type === 'vector' ? 'is-vector' : 'is-poster'}">
-              ${p.type === 'vector' ? '🔷 Vector · Figma' : '🟠 Poster · Photoshop'}
+            <div class="proj-card-cat ${m.cls}">
+              ${m.icon} ${m.label} · ${p.tool}
             </div>
             <div class="proj-card-tags">
               ${p.tags.slice(0,2).map(t => `<span class="proj-card-tag">${t}</span>`).join('')}
@@ -2498,11 +3013,39 @@
     });
   }
 
-  function projFilter(type, btn) {
-    document.querySelectorAll('.proj-tab').forEach(b => b.classList.remove('active'));
+  function toolFilter(tool, btn) {
+    document.querySelectorAll('.proj-filter > .proj-tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    activeFilter = type;
+    activeTool = tool;
+    activeCategory = 'all';
+    visibleCount = PAGE_SIZE;
+    buildCategoryBar();
     buildGrid();
+  }
+
+  function catFilter(cat, btn) {
+    document.querySelectorAll('.proj-cat-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCategory = cat;
+    visibleCount = PAGE_SIZE;
+    buildGrid();
+  }
+
+  function openFeatured(name) {
+    // reset filters so the clicked featured project is guaranteed to be in filteredItems
+    activeTool = 'all';
+    activeCategory = 'all';
+    buildCategoryBar();
+    searchQuery = '';
+    visibleCount = PAGE_SIZE;
+    const searchInput = document.getElementById('projSearch');
+    if (searchInput) searchInput.value = '';
+    document.querySelectorAll('.proj-tab').forEach(b => b.classList.remove('active'));
+    const allTab = document.querySelector('.proj-tab');
+    if (allTab) allTab.classList.add('active');
+    buildGrid();
+    const idx = filteredItems.findIndex(p => p.name === name);
+    openLightbox(idx >= 0 ? idx : 0);
   }
 
   // ── LIGHTBOX ──
@@ -2529,9 +3072,41 @@
     'Hoodie Drop':              'A streetwear product poster born from a casual moment — hanging a newly purchased hoodie on a hanger and noticing how the hood and sleeves fell into a naturally cute, human-like pose. What sets this poster apart from every other fashion post is its blueprint grid-line background — a deliberate choice to stand out from the plain backgrounds everyone else uses. The sand-beige hoodie color matches the background text, unifying product and typography.',
     'Polo Sweatshirt':          'A premium flat-lay lifestyle poster that solves a real observation: most fashion marketing shows only one item at a time. This poster shows a complete curated outfit — the deep forest green polo sweatshirt at center, surrounded by a matching cap, clean minimalist sneakers, and white wireless headphones. Photographed from a top-down view as if laid on a table, the obsidian background isolates every item like a luxury artifact.',
     'Global Travel':            'A travel agency poster built on a deeply personal dream — to fly in an airplane at least once in a lifetime. The central metaphor is turning the pages of a book called life, where travel reveals what lies beneath the ordinary. The visual technique is a page-peel reveal: the clean white minimalist top half literally curls back like a book page to expose a vibrant cinematic world of cruise ships, skyscrapers and deep blue ocean below.',
+    'Shampo Poster':            'A botanical-inspired promotional poster for Natural Shampoo, designed around a deep burgundy bottle against a clean off-white background. Rich magenta panels, bold typography, soft organic shapes, and floral branch imagery create a beauty-focused composition. The 98% natural headline reinforces the product’s natural positioning, while supporting benefit statements and a QR code complete the advertising layout.',
     'Interior Designer':        'A marketing poster designed as an exercise in thinking like a real commercial client — what would an interior design firm need to grow their business? The answer: something different from the flat, plain layouts on social media. This poster uses a blurred background image with white overlay, rounded stadium-shaped capsule frames for the room photos, and a sophisticated deep plum brand palette that immediately reads as premium and architectural.',
     'Modern House for Sale':    'A real estate poster that adds genuine 3D depth to a category known for flat, simple layouts. The central innovation is pen-tool shaped image frames that overlap like a cascading deck of cards — each photo slightly over the next, creating physical layering. A bold diagonal purple slash cuts across the white canvas creating urgency, while the hybrid script-and-bold title balances warmth with structural authority.',
     'Designer Poster':          'A self-promotional typographic poster that answers one question: how does a graphic designer prove they are a designer without showing a portfolio? By making the design itself the proof. The word DESIGNER is stacked across three massive rows with two realistic stylus pens weaving physically between the letterforms in 3D space. A Figma-style toolbar on the left edge serves as a quiet identity marker — I use these tools every day.',
+    'Bag Mockup':          'A black canvas tote bag featuring a bold red geometric A logo centered on the front panel. The spacious surface and clean silhouette allow the emblem to become the primary visual element, turning an everyday accessory into a distinctive branding application.',
+    'Bottle Mockup':       'A sleek black insulated water bottle featuring the geometric A emblem in red on its front surface. The cylindrical body, matte finish, and integrated carry-handle lid create a contemporary product mockup that extends the brand identity into everyday lifestyle accessories.',  
+    'Cap Mockup':          'A black baseball cap displaying an enlarged red geometric A logo on the front panel. The curved brim, stitched construction, and monochromatic fabric create a modern streetwear-inspired mockup that makes the brand emblem the defining feature of the accessory.',
+    'Cup Mockup':          'A black ceramic coffee mug featuring a bold red geometric A emblem on its front face. The smooth dark finish, rounded body, and matching handle create a simple, cohesive product mockup that translates the brand identity into a familiar everyday object.',
+    'Dairy Mockup':        'A black hardcover notebook mockup featuring the geometric A logo centered on the front cover. The minimal layout, elastic closure, and ribbon bookmark combine practical stationery details with a refined branding treatment, extending the visual identity into professional and personal organization.', 
+    'T-shirt Mockup':         'A premium black polo shirt mockup showcasing the geometric A logo in red on the left chest. The understated placement, structured collar, and dark fabric create a professional, modern, and confident brand appearance.', 
+    'DE1':         'A contemplative double-exposure where a profile portrait becomes a window into a neon-tinted city evening—power lines and poles cutting through a sky of violet clouds while a lone figure walks down a rain-glossed road. The contrast between the calm face silhouette and the gritty infrastructure creates a mood of quiet distance, like thoughts travelling home after dusk. Built in Photoshop using clean silhouette masking, layered city elements, and cinematic color grading to unify both exposures.',
+    'DE2':         'This piece blends a side-profile portrait with a blazing coastal sunset, letting the sun sit like an inner ember at the center of the subject. A flock of birds breaks away from the silhouette, symbolizing release, transition, and freedom of thought. Created with double-exposure masking, bird overlays, and warm tonal mapping to keep the composition bold and minimal.',
+    'DE3':         'A dreamy night-scene composite that merges a large upward-looking profile with a star-filled sky, while a smaller figure sits in stillness below—suggesting reflection, curiosity, and searching for meaning. The layered exposures create a sense of scale: one person, two worlds—inner and outer. Executed in Photoshop with exposure blending, soft edge masking, and cool monochrome grading for a calm, cosmic atmosphere.',
+    'DE4':         'A double-exposure portrait infused with golden-hour energy, where flowing hair and soft facial detail blend into an expansive sunset landscape. The smaller figure reaching toward the sky reinforces the theme of ambition—moving from introspection to action. Composited in Photoshop with selective masking, highlight control, and warm color harmony to connect skin tones with the sunset palette.',
+    'DE5':         'This artwork combines an intimate window-lit portrait with a luminous star field and constellation lines, turning the subject’s silhouette into a universe of possibility. The smaller figure reaching upward adds a narrative of aspiration—touching something bigger than oneself. Crafted in Photoshop using layered star textures, blend modes for glow, and detailed masking to transition smoothly between the indoor scene and the cosmic overlay.',
+    'Dress Overlay 1': 'A fashion photo-manipulation edit showcasing a clean garment redesign by transforming a plain white dress into a floral print while preserving realistic fabric texture and form. The pattern was carefully aligned to the dress contours using precise masking and warp/displacement-style adjustments, with highlights, shadows, and natural folds maintained for a believable result. Final tonal balancing ensured the new print integrates seamlessly with the original lighting and scene.',
+    'Dress Overlay 2': 'A fashion retouch focused on transforming a plain white dress into a luxury black base with a gold botanical print while keeping the garment’s original folds and tailoring intact. The pattern was shaped to the dress structure using precise masking and warp adjustments, then blended to preserve natural highlights and shadow depth. Final tone balancing ensures the print feels integrated with the scene lighting, not overlaid.',
+    'Dress Overlay 3': 'A garment redesign edit where a minimal white dress is reimagined with a soft, pastel floral textile treatment. The artwork is aligned to the bodice and skirt contours so the print follows the fabric flow, maintaining realistic creases and volume. Subtle color matching and contrast control were used to keep the result clean, natural, and wearable.',
+    'Dress Overlay 4': 'This edit showcases fabric pattern replacement on traditional wear, converting a plain white kurta into a detailed beige embroidered/jacquard style while maintaining the original fit and drape. The texture was blended to respect real lighting, seam lines, and wrinkle direction, creating a believable premium-fabric finish. The final grade keeps the pattern visible without overpowering the subject.',
+    'Dress Overlay 5': 'A fashion compositing edit that introduces a modern blue all-over print to a solid white kurta, designed to look like an authentic dyed textile. The pattern placement was refined to follow the garment’s shape and movement, with careful blending to retain highlights, shadows, and natural fabric texture. Color grading was adjusted to keep the print vibrant while matching the outdoor environment.',
+    'Can Overlay 1':  'A studio-style can mockup edit created in Photoshop, transforming a blank chilled can into a finished beverage product visual while maintaining realistic lighting and material detail. The label artwork was wrapped to the cylindrical surface with accurate perspective, then blended to preserve metallic reflections, edge falloff, and condensation texture. Final contrast and color grading were matched to the dark background to achieve a clean, premium advertising look.',
+    'Can Overlay 2':  'A clean packaging mockup created in Photoshop by applying full branding to a blank, condensation-covered can. The label was wrapped to the curved surface with accurate perspective and edge falloff, while highlights, shadows, and water droplets were preserved for realism. Finished with subtle contrast balancing to keep a crisp e‑commerce/studio look.',
+    'Can Overlay 3':  'A lifestyle-style product composite where a branded can replaces a blank can while maintaining the original scene lighting, reflections, and surface moisture. The label was matched to the cylinder curvature and blended to retain metallic shine and condensation detail. Final color correction was tuned to harmonize with the bright citrus props (lemon, ice, mint) for a fresh, commercial feel.',
+    'Can Overlay 4':  'A dynamic can mockup built by mapping branding onto a blank floating can and matching the perspective, shadow softness, and specular highlights. The artwork was aligned to the can’s rotation so the logo reads naturally with the cylinder wrap. Final tonal cleanup keeps the composition minimal, sharp, and advertising-ready.',
+    'Can Overlay 5':  'A high-impact product visual created by integrating a branded can into a water-splash and ice scene with consistent lighting and reflections. The label was blended to preserve moisture, micro-contrast, and metallic texture, ensuring it feels printed on the can rather than placed on top. Finished with cinematic color grading to enhance depth, coldness, and energy.',
+    'Can Overlay 6':  'A premium studio mockup edit that transforms a blank chilled can into a fully branded product while keeping realistic condensation and rim highlights. The label was wrapped and blended to match the can’s curvature and dark-side lighting, maintaining smooth transitions and accurate reflections. Final grading reinforces a bold, high-contrast, commercial look.',
+    'Porsche':  'A bold automotive composition that captures the power, precision, and elegance of performance engineering. Using a striking red visual theme, dramatic lighting, and typography integrated with the vehicle imagery, this project transforms a sports car into a high-impact visual statement. Designed to communicate speed, confidence, and luxury through a refined advertising aesthetic.',
+    'Animated Child Poster':  'A contemporary promotional visual created to communicate creativity, innovation, and business growth. The central 3D character, atmospheric blue lighting, and minimal typography work together to establish a friendly yet professional brand identity. This composition explores how character-based visuals and focused messaging can make a digital advertisement more engaging and memorable.',
+    'Need a Designer':  'A character-driven promotional concept designed to capture attention and communicate creative services in a friendly, approachable way. The expressive 3D character creates an immediate focal point, while the bold headline and atmospheric gradient background establish a clear visual hierarchy. The design explores how personality, contrast, and concise messaging can turn a service promotion into an engaging brand communication piece.',
+    'Burger Poster':  'A mouth-watering food advertising concept designed to make the product the hero of the composition. Oversized burger imagery, bold orange typography, and a warm, appetizing background create a sense of richness and indulgence. Through layered image editing, depth, shadows, and carefully arranged visual elements, the design delivers an energetic promotional experience.',
+    'Dove Shampoo':  'A clean, elegant hair-care advertising concept built around the visual language of softness, nourishment, and shine. The contrast between the flowing dark hair, white background, and carefully positioned product creates a polished beauty aesthetic. Refined typography, balanced spacing, and subtle tonal transitions help communicate a premium personal-care message while keeping the product and its intended benefits at the forefront.',
+    'Face Typography':  'An expressive monochrome artwork exploring the relationship between portrait photography and typography. The oversized text intersects with the subjects face, creating a layered visual narrative built on contrast, texture, and spatial tension. By integrating lettering directly into the portrait composition, this project turns a simple photographic image into a bold editorial statement with a distinctive visual identity.',
+    'Fanta':  'A vibrant beverage visual designed to capture the energy and freshness of an orange-flavoured drink. A dramatic liquid splash, floating citrus elements, and a saturated orange background create movement and reinforce the products flavour identity. The composition combines product-focused editing with dynamic lighting and layered visual effects to deliver a bold, refreshing advertising concept.',
+    'Cold Coffee Poster':  'A premium beverage campaign that combines refreshing product imagery with a rich, coffee-inspired visual environment. The dynamic chocolate splash, iced coffee cup, and repeating coffee-bean patterns establish a strong sense of flavour and identity. A structured layout balances promotional messaging with product presentation, creating an engaging visual suitable for café marketing and digital campaigns.',
+    'Cold Coffee':  'A rich dessert-inspired composition celebrating the irresistible appeal of chocolate. Floating coffee beans, flowing chocolate, layered dessert elements, and warm brown tones create a sense of movement, texture, and indulgence. The project focuses on realistic-looking image blending and visual depth to transform individual assets into a cohesive, premium beverage advertisement.',
   };
 
   const projectData = {
@@ -2941,6 +3516,38 @@
       ],
     },
 
+    'Shampo Poster': {
+      inspiration: 'Inspired by botanical haircare packaging, floral elegance, and modern cosmetic advertising, this design combines the richness of burgundy with the freshness of natural botanical elements. The magenta color blocks create a premium beauty aesthetic, while the cherry-blossom-inspired branches introduce softness and a connection to nature. The oversized product image anchors the composition and gives the poster a strong visual focal point.',
+      palette:  [
+        { hex: '#000000', name: 'Black — Background and Product Details' },
+        { hex: '#F3F1F1', name: 'Soft Off-White — Main Background' },
+        { hex: '#8F0045', name: 'Deep Magenta — Primary Accent' },
+        { hex: '#B00050', name: 'Rich Raspberry — Secondary Accent' },
+        { hex: '#59001F', name: 'Dark Burgundy — Benefit Panels' },
+        { hex: '#DDA6AC', name: 'Dusty Rose — Organic Decorative Shapes' },
+        { hex: '#333033', name: 'Charcoal — Headline Typography' },
+        { hex: '#FFFFFF', name: 'White — Text Contrast and Highlights' }
+      ],
+      decisions: [
+        { color: 'red', title: 'Product Focal Point', text: 'The oversized shampoo bottle is placed diagonally across the composition to establish depth, draw attention, and make the product the central visual element.' },
+        { color: 'blue', title: 'Typography Hierarchy', text: 'The large bold SHAMPOO headline immediately identifies the product, while the smaller NATURAL label and 100ml detail provide supporting information.' },
+        { color: 'orange', title: 'Burgundy Color Blocking', text: 'Rounded magenta and burgundy panels organize the product benefits and natural-content statement while maintaining a consistent beauty-brand aesthetic.' },
+        { color: 'blue', title: 'Botanical Elements', text: 'The flowering branches along the bottom edge and the soft petal-like shapes in the background reinforce the botanical theme and balance the geometric panels.' },
+        { color: 'red', title: 'Contrast and Readability', text: 'White text on dark burgundy panels creates strong contrast, helping the benefit statements remain readable against the saturated colors.' },
+        { color: 'orange', title: 'QR Code Placement', text: 'The QR code sits in the lower-right corner as a functional secondary element, separate from the main headline and product focal point.' }
+      ],
+      annotations: [
+        { box: { top: 17, left: 36, w: 48, h: 67 }, color: 'red', callout: { top: 45, left: 2 }, title: 'Hero Product', text: 'The angled shampoo bottle creates depth and directs attention toward the center of the poster.' },
+        { box: { top: 7, left: 52, w: 42, h: 13 }, color: 'white', callout: { top: 2, left: 70 }, title: 'Main Headline', text: 'Large bold typography establishes the product category and creates a clear visual hierarchy.' },
+        { box: { top: 36, left: 51, w: 43, h: 14 }, color: 'blue', callout: { top: 30, left: 76 }, title: 'Benefit Panel One', text: 'The rounded burgundy panel highlights the hair-loss-related benefit statement.' },
+        { box: { top: 52, left: 51, w: 43, h: 13 }, color: 'orange', callout: { top: 67, left: 76 }, title: 'Benefit Panel Two', text: 'A matching panel presents the hair follicle statement and maintains consistency across the layout.' },
+        { box: { top: 61, left: 26, w: 25, h: 24 }, color: 'red', callout: { top: 58, left: 2 }, title: 'Natural Content Badge', text: 'The prominent 98% natural statement reinforces the product’s natural positioning.' },
+        { box: { top: 80, left: 21, w: 51, h: 19 }, color: 'blue', callout: { top: 91, left: 2 }, title: 'Botanical Illustration', text: 'Pink flowering branches soften the composition and support the nature-inspired visual concept.' },
+        { box: { top: 81, left: 82, w: 12, h: 13 }, color: 'orange', callout: { top: 76, left: 73 }, title: 'QR Code', text: 'The QR code provides a compact interactive element for additional product information or promotional content.' },
+        { box: { top: 7, left: 70, w: 25, h: 20 }, color: 'white', callout: { top: 18, left: 82 }, title: 'Organic Shapes', text: 'Soft dusty-rose forms introduce movement and balance the structured text panels.' }
+      ]
+    },
+
     'Interior Designer': {
       inspiration: 'I imagined getting a real marketing client who does interior design and wants to grow their business. I explored my own room, my house, and some luxury homes I had visited. I decided to make a unique poster different from social media — with a blurred background image, white opacity overlay, and showcase rooms by category: hall, kitchen, TV area, bedroom. I wanted it to feel like a premium interior service, not just a plain ad.',
       palette: [
@@ -3048,8 +3655,9 @@
 
     // topbar
     const badge = document.getElementById('lbTypeBadge');
-    badge.textContent = p.type === 'vector' ? '🔷 Vector · Figma' : '🟠 Poster · Figma';
-    badge.className = `lb-type-badge ${p.type === 'vector' ? 'is-vector' : 'is-poster'}`;
+    const bm = catMeta(p.type);
+    badge.textContent = `${bm.icon} ${bm.label} · ${p.tool}`;
+    badge.className = `lb-type-badge ${bm.cls}`;
     document.getElementById('lbTopTitle').textContent = p.name;
 
     // show/hide breakdown tab
@@ -3067,12 +3675,132 @@
     renderAnnotations();
   }
 
+  // ── LIKES & COMMENTS (Firebase) ──
+  function slugify(str) {
+    return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  }
+
+  async function loadSocial() {
+    const p = filteredItems[lbIndex];
+    if (!p) return;
+    const pid = slugify(p.name);
+    const likeBtn      = document.getElementById('lbLikeBtn');
+    const likeCountEl   = document.getElementById('lbLikeCount');
+    const commentsListEl = document.getElementById('lbCommentsList');
+    if (!likeBtn || !db) return;
+
+    const likedKey = `liked_${pid}`;
+    likeBtn.classList.toggle('is-liked', localStorage.getItem(likedKey) === '1');
+    likeBtn.dataset.pid = pid;
+
+    try {
+      const docSnap = await db.collection('projects').doc(pid).get();
+      likeCountEl.textContent = docSnap.exists ? (docSnap.data().likes || 0) : 0;
+    } catch (e) {
+      likeCountEl.textContent = '–';
+    }
+
+    try {
+      const snap = await db.collection('projects').doc(pid).collection('comments')
+        .orderBy('createdAt', 'desc').limit(25).get();
+      if (snap.empty) {
+        commentsListEl.innerHTML = `<div class="lb-no-comments">No comments yet — be the first!</div>`;
+      } else {
+        commentsListEl.innerHTML = snap.docs.map(d => {
+          const c = d.data();
+          const safeName = (c.name || 'Anonymous').replace(/</g, '&lt;');
+          const safeText = (c.text || '').replace(/</g, '&lt;');
+          return `<div class="lb-comment">
+            <div class="lb-comment-name">${safeName}</div>
+            <div class="lb-comment-text">${safeText}</div>
+          </div>`;
+        }).join('');
+      }
+    } catch (e) {
+      commentsListEl.innerHTML = `<div class="lb-no-comments">Couldn't load comments right now.</div>`;
+    }
+  }
+
+  async function toggleLike() {
+    const p = filteredItems[lbIndex];
+    if (!p || !db) return;
+    const pid = slugify(p.name);
+    const likedKey = `liked_${pid}`;
+    const likeBtn    = document.getElementById('lbLikeBtn');
+    const likeCountEl = document.getElementById('lbLikeCount');
+    const alreadyLiked = localStorage.getItem(likedKey) === '1';
+    const delta = alreadyLiked ? -1 : 1;
+
+    likeBtn.classList.toggle('is-liked', !alreadyLiked);
+    likeCountEl.textContent = Math.max(0, (parseInt(likeCountEl.textContent) || 0) + delta);
+    localStorage.setItem(likedKey, alreadyLiked ? '0' : '1');
+
+    try {
+      await db.collection('projects').doc(pid).set({
+        name: p.name,
+        likes: firebase.firestore.FieldValue.increment(delta)
+      }, { merge: true });
+    } catch (e) {
+      console.error('Like failed:', e);
+    }
+  }
+
+  async function submitComment(e) {
+    e.preventDefault();
+    const p = filteredItems[lbIndex];
+    if (!p || !db) return;
+    const pid = slugify(p.name);
+    const nameInput = document.getElementById('lbCommentName');
+    const textInput = document.getElementById('lbCommentText');
+    const name = nameInput.value.trim();
+    const text = textInput.value.trim();
+    if (!name || !text) return;
+
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Posting…';
+
+    try {
+      await db.collection('projects').doc(pid).collection('comments').add({
+        name, text,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      nameInput.value = '';
+      textInput.value = '';
+      await loadSocial();
+    } catch (err) {
+      alert('Could not post your comment. Please try again.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Post Comment';
+    }
+  }
+
+  function socialHTML() {
+    return `
+      <div class="lb-social">
+        <div class="lb-section-head">Likes &amp; Comments</div>
+        <button class="lb-like-btn" id="lbLikeBtn" onclick="toggleLike()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span id="lbLikeCount">–</span>
+        </button>
+        <div class="lb-comments" id="lbCommentsList">Loading comments…</div>
+        <form class="lb-comment-form" id="lbCommentForm" onsubmit="submitComment(event)">
+          <input type="text" id="lbCommentName" placeholder="Your name" maxlength="40" required />
+          <textarea id="lbCommentText" placeholder="Leave feedback or a suggestion…" maxlength="400" required></textarea>
+          <button type="submit">Post Comment</button>
+        </form>
+      </div>`;
+  }
+
   function renderInfoPane() {
     const p = filteredItems[lbIndex];
     if (!p) return;
     const pane = document.getElementById('lbInfoPane');
     const data = projectData[p.name];
-    const cls  = p.type === 'vector' ? 'is-vector' : 'is-poster';
+    const cls  = catMeta(p.type).cls;
 
     if (lbMode === 'view' || !data) {
       // VIEW MODE
@@ -3085,7 +3813,8 @@
           <div class="lb-section-head">Tags</div>
           <div class="lb-tags">${p.tags.map(t => `<span class="lb-tag ${cls}">${t}</span>`).join('')}</div>
         </div>
-        <div class="lb-tool-chip"><div class="lb-tool-dot"></div>${p.type === 'vector' ? 'Created in Figma' : 'Created in Adobe Photoshop'}</div>
+        <div class="lb-tool-chip"><div class="lb-tool-dot"></div>Created in ${p.tool}</div>
+        ${socialHTML()}
       `;
     } else {
       // BREAKDOWN MODE
@@ -3114,8 +3843,11 @@
           <div class="lb-section-head">Design Decisions</div>
           <div style="display:flex;flex-direction:column;gap:8px;">${decisions}</div>
         </div>
+        ${socialHTML()}
       `;
     }
+
+    loadSocial();
   }
 
   function renderAnnotations() {
@@ -3247,6 +3979,8 @@
     });
   }
 
+  buildFeatured();
+  buildCategoryBar();
   buildGrid();
 
 </script>
